@@ -12,7 +12,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child:Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(170, 219, 253, 1),
           title: Text('Settings',
@@ -135,6 +135,6 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ],
           ),
-        ));
+        )));
   }
 }

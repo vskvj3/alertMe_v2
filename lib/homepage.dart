@@ -22,11 +22,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child:Scaffold(
 
       //navbar 
       
       appBar: AppBar(
+        
         backgroundColor: Color.fromRGBO(170, 219, 253, 1),
           title: Text('AlertMe',style: 
           TextStyle(color:Colors.black,
@@ -147,7 +148,7 @@ class HomePage extends StatelessWidget {
 
 
 
-      body: Column(
+      body:Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
@@ -270,6 +271,6 @@ class HomePage extends StatelessWidget {
 
       ),
     
-    );
+    ));
   }
 }

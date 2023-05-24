@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:abin_second_app/pages/Login_RegisterPage.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Loading App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: LoadingPage(),
-    );
+        title: 'Loading App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: SafeArea(
+          child: LoadingPage(),
+        ));
   }
 }
 
@@ -45,7 +45,8 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+        body: SafeArea(
+      child: Center(
         child: Container(
           padding: EdgeInsets.only(bottom: 100),
           height: 295,
@@ -74,6 +75,6 @@ class _LoadingPageState extends State<LoadingPage> {
           ]),
         ),
       ),
-    );
+    ));
   }
 }

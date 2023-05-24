@@ -7,7 +7,7 @@ class EmergencyContactsPage extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
 
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child:Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(170, 219, 253, 1),
           title: Text('Emergency Contacts',
@@ -83,6 +83,6 @@ class EmergencyContactsPage extends StatelessWidget {
                   ]),
                 )
               ],
-            )));
+            ))));
   }
 }
