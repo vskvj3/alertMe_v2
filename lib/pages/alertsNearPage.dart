@@ -1,7 +1,7 @@
-import 'package:abin_second_app/widgets/AlertListField.dart';
+import 'package:AlertMe/widgets/AlertListField.dart';
 import 'package:flutter/material.dart';
-import 'package:abin_second_app/homepage.dart';
-import 'package:abin_second_app/widgets/alertViewButton.dart';
+import 'package:AlertMe/homepage.dart';
+import 'package:AlertMe/widgets/alertViewButton.dart';
 
 class AlertsNear extends StatelessWidget {
   Widget verticalDivider = VerticalDivider(thickness: 1, color: Colors.grey);

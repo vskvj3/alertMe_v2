@@ -1,13 +1,13 @@
 
-import 'package:abin_second_app/pages/EmergencyProfilePage.dart';
-import 'package:abin_second_app/pages/alertsNearPage.dart';
+import 'package:AlertMe/pages/EmergencyProfilePage.dart';
+import 'package:AlertMe/pages/alertsNearPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:abin_second_app/widgets/alertViewButton.dart';
-import 'package:abin_second_app/pages/AboutPage.dart';
-import 'package:abin_second_app/pages/FAQpage.dart';
-import 'package:abin_second_app/pages/EmergencyContactsPage.dart';
-import 'package:abin_second_app/pages/SettingsPage.dart';
+import 'package:AlertMe/widgets/alertViewButton.dart';
+import 'package:AlertMe/pages/AboutPage.dart';
+import 'package:AlertMe/pages/FAQpage.dart';
+import 'package:AlertMe/pages/EmergencyContactsPage.dart';
+import 'package:AlertMe/pages/SettingsPage.dart';
 
 
 

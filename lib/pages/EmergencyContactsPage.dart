@@ -1,5 +1,5 @@
-import 'package:abin_second_app/widgets/TextField.dart';
-import 'package:abin_second_app/widgets/saveOrAddButton.dart';
+import 'package:AlertMe/widgets/TextField.dart';
+import 'package:AlertMe/widgets/saveOrAddButton.dart';
 import 'package:flutter/material.dart';
 
 class EmergencyContactsPage extends StatelessWidget {

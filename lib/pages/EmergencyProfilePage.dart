@@ -1,9 +1,9 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:abin_second_app/widgets/TextField.dart';
+import 'package:AlertMe/widgets/TextField.dart';
 import 'package:flutter/rendering.dart';
-import 'package:abin_second_app/widgets/saveOrAddButton.dart';
+import 'package:AlertMe/widgets/saveOrAddButton.dart';
 
 class EmergencyProfilePage extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();

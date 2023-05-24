@@ -1,6 +1,6 @@
 //widget for the recieved alert fields in the 'Alerts recievced' section
 
-import 'package:abin_second_app/pages/AlertDetails.dart';
+import 'package:AlertMe/pages/AlertDetails.dart';
 import 'package:flutter/material.dart';
 
 class alertListField extends StatelessWidget {
