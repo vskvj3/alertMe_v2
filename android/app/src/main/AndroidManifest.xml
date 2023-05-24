@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.abin_second_app">
    <application
-        android:label="abin_second_app"
+        android:label="AlertMe"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
