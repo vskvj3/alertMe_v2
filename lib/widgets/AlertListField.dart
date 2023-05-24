@@ -13,7 +13,7 @@ class alertListField extends StatelessWidget {
 
 
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
         onPressed: () => {
           
           Navigator.push(
@@ -71,13 +71,13 @@ class alertListField extends StatelessWidget {
                           children: [
                             Text(
                               name,
-                              style: TextStyle(fontSize: 15.0),
+                              style: TextStyle(fontSize: 15.0,color: Colors.black),
                             ),
                             SizedBox(height: 10),
                             Container(
                             child:Text(
                               distance,
-                              style: TextStyle(fontSize: 11.0),
+                              style: TextStyle(fontSize: 11.0, color: Colors.black),
                             ),)
                           ],
                         ),

@@ -164,6 +164,7 @@ class HomePage extends StatelessWidget {
             child: ElevatedButton(   
                       
               onPressed: () {
+                print("ALERT!!");
                 // Handle panic button press event
               },
               child: Text(
