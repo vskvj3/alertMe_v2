@@ -4,7 +4,7 @@ import 'package:AlertMe/homepage.dart';
 import 'package:AlertMe/widgets/alertViewButton.dart';
 
 class AlertsNear extends StatelessWidget {
-  Widget verticalDivider = VerticalDivider(thickness: 1, color: Colors.grey);
+  final Widget verticalDivider = VerticalDivider(thickness: 1, color: Colors.grey);
 
   Widget build(BuildContext context) {
     return SafeArea(
