@@ -2,9 +2,11 @@ import 'package:AlertMe/widgets/AlertListField.dart';
 import 'package:flutter/material.dart';
 import 'package:AlertMe/homepage.dart';
 import 'package:AlertMe/widgets/alertViewButton.dart';
+import 'package:AlertMe/widgets/AlertViewNavigationBar.dart';
 
 class AlertsNear extends StatelessWidget {
-  final Widget verticalDivider = VerticalDivider(thickness: 1, color: Colors.grey);
+  final Widget verticalDivider =
+      VerticalDivider(thickness: 1, color: Colors.grey);
 
   Widget build(BuildContext context) {
     return SafeArea(
@@ -32,55 +34,7 @@ class AlertsNear extends StatelessWidget {
               ),
             ],
           )),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          height: 75,
-          color: Color(0xFFAADBFD),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              alertViewButton('Alert', () {
-                // what happens when the alert button is clicked
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  ),
-                  (route) => false, // Prevent navigating back
-                );
-              }, Colors.red, FontWeight.w400),
-
-              // Text(
-              //   'Alert',
-              //   style: TextStyle(
-              //     fontSize: 28.0,
-              //     fontWeight: FontWeight.w300,
-              //     color: Colors.red,
-              //   ),
-              // ),
-              verticalDivider,
-              // Text(
-              //   'View',
-              //   style: TextStyle(
-              //     fontSize: 28.0,
-              //     fontWeight: FontWeight.w300,
-              //     color: Colors.black,
-              //   ),
-              // ),
-              alertViewButton('View', () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AlertsNear(),
-                  ),
-                  (route) => false, // Prevent navigating back
-                );
-                print('Alert View Page');
-              }, Colors.black, FontWeight.w400),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: AlertViewNavigationBar(),
     ));
   }
 }

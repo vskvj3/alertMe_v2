@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:AlertMe/pages/EmergencyProfilePage.dart';
-import 'package:AlertMe/pages/alertsNearPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:AlertMe/widgets/alertViewButton.dart';
 import 'package:AlertMe/pages/AboutPage.dart';
 import 'package:AlertMe/pages/FAQpage.dart';
 import 'package:AlertMe/pages/EmergencyContactsPage.dart';
 import 'package:AlertMe/pages/SettingsPage.dart';
+import 'package:AlertMe/widgets/AlertViewNavigationBar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -276,37 +275,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-            height: 75,
-            color: Color(0xFFAADBFD),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                alertViewButton('Alert', () {
-                  // what happens when the alert button is clicked
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ),
-                    (route) => false, // Prevent navigating back
-                  );
-                }, Colors.red, FontWeight.w400),
-                alertViewButton('View', () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AlertsNear(),
-                    ),
-                    (route) => false, // Prevent navigating back
-                  );
-                  print('Alert View Page');
-                }, Colors.black, FontWeight.w400),
-              ],
-            ),
-          ),
-        ),
+        bottomNavigationBar: AlertViewNavigationBar(),
       ),
     );
   }
