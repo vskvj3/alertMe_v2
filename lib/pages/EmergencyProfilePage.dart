@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:AlertMe/widgets/TextField.dart';
-import 'package:flutter/rendering.dart';
 import 'package:AlertMe/widgets/saveOrAddButton.dart';
 
 class EmergencyProfilePage extends StatelessWidget {
