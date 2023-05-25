@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:AlertMe/pages/EmergencyProfilePage.dart';
@@ -145,11 +144,8 @@ class _HomePageState extends State<HomePage> {
 // body of home page
 
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 110.0,
-            ),
             Visibility(
               visible: isVisible,
               child: Container(
@@ -231,8 +227,9 @@ class _HomePageState extends State<HomePage> {
                         fit: StackFit.expand,
                         children: [
                           CircularProgressIndicator(
-                            value:(seconds / maxSeconds),
-                            valueColor: const AlwaysStoppedAnimation(Colors.red),
+                            value: (seconds / maxSeconds),
+                            valueColor:
+                                const AlwaysStoppedAnimation(Colors.red),
                             strokeWidth: 12,
                           ),
                           Center(
@@ -250,26 +247,28 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(
                       width: 200,
-                      height:60,
-                      child:ElevatedButton(
+                      height: 60,
+                      child: ElevatedButton(
                         style: const ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(128, 0, 0, 1.0)),
-                          foregroundColor: MaterialStatePropertyAll(Colors.white),
+                          backgroundColor: MaterialStatePropertyAll(
+                              Color.fromRGBO(128, 0, 0, 1.0)),
+                          foregroundColor:
+                              MaterialStatePropertyAll(Colors.white),
                         ),
-                      onPressed: () {
-                        setState(() {
-                          timer?.cancel();
-                          seconds = maxSeconds;
-                          isVisible = !isVisible;
-                        });
-                      },
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(
-                          fontSize: 20.0,
+                        onPressed: () {
+                          setState(() {
+                            timer?.cancel();
+                            seconds = maxSeconds;
+                            isVisible = !isVisible;
+                          });
+                        },
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
-                    ),
                     ),
                   ],
                 ),
@@ -294,8 +293,6 @@ class _HomePageState extends State<HomePage> {
                     (route) => false, // Prevent navigating back
                   );
                 }, Colors.red, FontWeight.w400),
-
-                
                 alertViewButton('View', () {
                   Navigator.pushAndRemoveUntil(
                     context,
