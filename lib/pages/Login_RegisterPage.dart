@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 
 class LoginRegister extends StatelessWidget {
   final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class LoginRegister extends StatelessWidget {
                 controller: _phoneNumberController),
             SizedBox(height: 20),
             CustomTextField(
-                labelText: 'Enter OTP', controller: _phoneNumberController),
+                labelText: 'Enter OTP', controller: _otpController),
             Container(
               child: Row(children: [
                 Text("Didn't get OTP?"),
