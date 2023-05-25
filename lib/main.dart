@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:AlertMe/pages/Login_RegisterPage.dart';
+// import 'package:AlertMe/pages/Login_RegisterPage.dart';
 import 'package:flutter/material.dart';
 import 'package:AlertMe/homepage.dart';
 
@@ -9,7 +9,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Loading App',
+      debugShowCheckedModeBanner: false,
+        title: 'AlertMe',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
@@ -41,6 +42,16 @@ class _LoadingPageState extends State<LoadingPage> {
       MaterialPageRoute(builder: (context) => HomePage()),
     );
   }
+
+  // void startLoadingProcess() {
+  //   Timer(Duration(seconds: 3), () {
+  //     // After loading, navigate to the main app
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => HomePage()),
+  //     );
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
