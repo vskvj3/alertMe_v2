@@ -73,27 +73,27 @@ class HamburgerMenu extends StatelessWidget {
             value: 'Settings',
             child: Text('Settings'),
           ),
-          const PopupMenuDivider(height: 20),
+          const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'Emergency Profile',
             child: Text('Emergency Profile'),
           ),
-          const PopupMenuDivider(height: 20),
+          const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'Emergency Contacts',
             child: Text('Emergency Contacts'),
           ),
-          const PopupMenuDivider(height: 20),
+          const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'FAQ',
             child: Text('FAQ'),
           ),
-          const PopupMenuDivider(height: 20),
+          const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'About',
             child: Text('About'),
           ),
-          const PopupMenuDivider(height: 20),
+          const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'Quit',
             child: Text('Quit'),
