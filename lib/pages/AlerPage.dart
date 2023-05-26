@@ -31,6 +31,12 @@ class _AlertPageState extends State<AlertPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
