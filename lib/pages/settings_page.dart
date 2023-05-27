@@ -1,30 +1,31 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  List<bool> _checkboxValues = [false, false, false, false, false];
+  final List<bool> _checkboxValues = [false, false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child:Scaffold(
+    return SafeArea(
+      child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(170, 219, 253, 1),
-          title: Text('Settings',
+          backgroundColor: const Color.fromRGBO(170, 219, 253, 1),
+          title: const Text('Settings',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         ),
         body: Container(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: ListView(
             children: [
-              SizedBox(height: 20),
-              Padding(
+              const SizedBox(height: 20),
+              const Padding(
                 padding: EdgeInsets.only(top: 30, left: 0),
                 child: Text(
                   'Who should get the alert?',
@@ -32,30 +33,32 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
 
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
               CheckboxListTile(
-                  title: Text(
+                  title: const Text(
                     'Emergency Contacts',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
                   ),
                   value: _checkboxValues[0],
                   onChanged: (value) {
-                    setState(() {
-                      _checkboxValues[0] = value!;
-                    });
+                    setState(
+                      () {
+                        _checkboxValues[0] = value!;
+                      },
+                    );
                   },
                   activeColor: Colors.pink,
                   checkColor: Colors.white,
-                  tileColor: Color(0xFFF9D1D1),
+                  tileColor: const Color(0xFFF9D1D1),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 // add color and borderradius
               CheckboxListTile(
-                  title: Text(
+                  title: const Text(
                     'Nearby Users',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
@@ -68,38 +71,40 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                   activeColor: Colors.pink,
                   checkColor: Colors.white,
-                  tileColor: Color(0xFFF9D1D1),
+                  tileColor: const Color(0xFFF9D1D1),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
 
               CheckboxListTile(
-                  title: Text(
+                  title: const Text(
                     'Police',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
                   ),
                   value: _checkboxValues[2],
                   onChanged: (value) {
-                    setState(() {
-                      _checkboxValues[2] = value!;
-                    });
+                    setState(
+                      () {
+                        _checkboxValues[2] = value!;
+                      },
+                    );
                   },
                   activeColor: Colors.pink,
                   checkColor: Colors.white,
-                  tileColor: Color(0xFFF9D1D1),
+                  tileColor: const Color(0xFFF9D1D1),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               Container(
                 decoration: BoxDecoration(
-                    color: Color(0xFFF9D1D1),
+                    color: const Color(0xFFF9D1D1),
                     borderRadius: BorderRadius.circular(10.0)),
                 child: CheckboxListTile(
-                  title: Text('Health Care'),
+                  title: const Text('Health Care'),
                   value: _checkboxValues[3],
                   activeColor: Colors.pink,
                   checkColor: Colors.white,
@@ -113,14 +118,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               Container(
                 decoration: BoxDecoration(
-                    color: Color(0xFFF9D1D1),
+                    color: const Color(0xFFF9D1D1),
                     borderRadius: BorderRadius.circular(10.0)),
                 child: CheckboxListTile(
-                  title: Text('All'),
+                  title: const Text('All'),
                   value: _checkboxValues[4],
                   activeColor: Colors.pink,
                   checkColor: Colors.white,
@@ -135,6 +140,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ],
           ),
-        )));
+        ),
+      ),
+    );
   }
 }
