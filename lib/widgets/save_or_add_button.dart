@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final String text;
+  final String text ;
   final VoidCallback onPressed;
 
   const CustomButton({
@@ -14,12 +14,12 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(color: Colors.black),
-      ),
       style: ElevatedButton.styleFrom(
-        primary: Color(0xFFF9D1D1), // Set the button color
+        backgroundColor: const Color(0xFFF9D1D1), // Set the button color
+      ),
+      child:  Text(
+        text,
+        style:  const TextStyle(color: Colors.black),
       ),
     );
   }

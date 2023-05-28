@@ -16,9 +16,9 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Color(0xFFF9D1D1)),
+            borderRadius: BorderRadius.circular(10), color: const Color(0xFFF9D1D1)),
         height: 42.0,
         width: 380.0,
         child: TextField(
@@ -27,9 +27,9 @@ class CustomTextField extends StatelessWidget {
           decoration: InputDecoration(
               labelText: labelText,
               // floatingLabelBehavior: FloatingLabelBehavior.auto,
-              contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
               floatingLabelBehavior: FloatingLabelBehavior.auto,
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontSize: 13.0,
                 fontWeight: FontWeight.w400,
               ),

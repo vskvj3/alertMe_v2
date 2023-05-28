@@ -56,11 +56,8 @@ class _AlertPageState extends State<AlertPage> {
   Center alertCountDown() {
     return Center(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 110.0,
-          ),
           const Text(
             'Sending Alerts in',
             style: TextStyle(
@@ -68,7 +65,7 @@ class _AlertPageState extends State<AlertPage> {
             ),
           ),
           const SizedBox(
-            height: 20.0,
+            height: 50.0,
           ),
           SizedBox(
             width: 100,
@@ -92,7 +89,7 @@ class _AlertPageState extends State<AlertPage> {
             ),
           ),
           const SizedBox(
-            height: 20.0,
+            height: 100.0,
           ),
           SizedBox(
             width: 200,
@@ -125,7 +122,7 @@ class _AlertPageState extends State<AlertPage> {
 
   Container alertButton() {
     return Container(
-      color: Colors.white,
+      
       height: 293.0,
       padding: const EdgeInsets.only(),
       alignment: Alignment.center,

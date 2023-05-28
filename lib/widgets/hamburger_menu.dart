@@ -1,8 +1,8 @@
-import 'package:AlertMe/pages/AboutPage.dart';
-import 'package:AlertMe/pages/FAQpage.dart';
-import 'package:AlertMe/pages/EmergencyContactsPage.dart';
-import 'package:AlertMe/pages/SettingsPage.dart';
-import 'package:AlertMe/pages/EmergencyProfilePage.dart';
+import 'package:alert_me/pages/about_page.dart';
+import 'package:alert_me/pages/faq_page.dart';
+import 'package:alert_me/pages/emergency_contacts_page.dart';
+import 'package:alert_me/pages/settings_page.dart';
+import 'package:alert_me/pages/emergency_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,6 +14,9 @@ class HamburgerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
+      constraints: const BoxConstraints(
+        minWidth: 250,
+      ),
       icon: const Icon(
         Icons.menu,
         color: Colors.black,
@@ -26,10 +29,10 @@ class HamburgerMenu extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SettingsPage(),
+              builder: (context) => const SettingsPage(),
             ),
           );
-          print('Settings Page');
+          debugPrint('Settings Page');
         } else if (choice == 'Emergency Profile') {
           Navigator.push(
             context,
@@ -37,7 +40,7 @@ class HamburgerMenu extends StatelessWidget {
               builder: (context) => EmergencyProfilePage(),
             ),
           );
-          print('Emergency Profile Page');
+          debugPrint('Emergency Profile Page');
         } else if (choice == 'Emergency Contacts') {
           Navigator.push(
             context,
@@ -45,58 +48,76 @@ class HamburgerMenu extends StatelessWidget {
               builder: (context) => EmergencyContactsPage(),
             ),
           );
-          print('Emergency Contacts Page');
+          debugPrint('Emergency Contacts Page');
         } else if (choice == 'FAQ') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FAQPage(),
+              builder: (context) => const FAQPage(),
             ),
           );
-          print('FAQ Page');
+          debugPrint('FAQ Page');
         } else if (choice == 'About') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AboutPage(),
+              builder: (context) => const AboutPage(),
             ),
           );
-          print('About Page');
+          debugPrint('About Page');
         } else if (choice == 'Quit') {
           SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-          print('Quit');
+          debugPrint('Quit');
         }
       },
       itemBuilder: (BuildContext context) {
         return [
           const PopupMenuItem<String>(
             value: 'Settings',
-            child: Text('Settings'),
+            child: Text(
+              'Settings',
+              style: TextStyle(fontSize: 20),
+            ),
           ),
           const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'Emergency Profile',
-            child: Text('Emergency Profile'),
+            child: Text(
+              'Emergency Profile',
+              style: TextStyle(fontSize: 20),
+            ),
           ),
           const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'Emergency Contacts',
-            child: Text('Emergency Contacts'),
+            child: Text(
+              'Emergency Contacts',
+              style: TextStyle(fontSize: 20),
+            ),
           ),
           const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'FAQ',
-            child: Text('FAQ'),
+            child: Text(
+              'FAQ',
+              style: TextStyle(fontSize: 20),
+            ),
           ),
           const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'About',
-            child: Text('About'),
+            child: Text(
+              'About',
+              style: TextStyle(fontSize: 20),
+            ),
           ),
           const PopupMenuDivider(),
           const PopupMenuItem<String>(
             value: 'Quit',
-            child: Text('Quit'),
+            child: Text(
+              'Quit',
+              style: TextStyle(fontSize: 20),
+            ),
           ),
         ];
       },
