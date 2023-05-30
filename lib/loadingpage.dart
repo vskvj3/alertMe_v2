@@ -1,5 +1,6 @@
+import 'package:alert_me/pages/login_register_page.dart';
 import 'package:flutter/material.dart';
-import 'package:alert_me/homepage.dart';
+// import 'package:alert_me/homepage.dart';
 import 'dart:async';
 
 class LoadingPage extends StatefulWidget {
@@ -8,8 +9,6 @@ class LoadingPage extends StatefulWidget {
   @override
   State<LoadingPage> createState() => _LoadingPageState();
 }
-
-
 
 class _LoadingPageState extends State<LoadingPage> {
   @override
@@ -23,11 +22,11 @@ class _LoadingPageState extends State<LoadingPage> {
     await Future.delayed(const Duration(seconds: 3));
 
     // After loading, navigate to the main app
-    if(context.mounted){
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
-    );
+    if (context.mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginRegister()),
+      );
     }
   }
 
@@ -44,32 +43,29 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Center(
-        child:Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/alert.png',
-              height: 130,
-              width: 130,
-            ),
-
-            const SizedBox(
-              height: 30,
-            ),
-
-            const Text(
-              'AlertMe',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/alert.png',
+                height: 130,
+                width: 130,
               ),
-            ),
-          ],
-        ),
-       
+              const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                'AlertMe',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
