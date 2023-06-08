@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "528573428539",
+    "project_id": "alertme-project",
+    "storage_bucket": "alertme-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528573428539:android:70d56153b3cd8244a8fd1e",
+        "android_client_info": {
+          "package_name": "com.alerme.emergency"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528573428539-cqbqnspoj7s5j652s8pc2d9depk62kku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhQRt5LiIYEjkpYXCAmJxxskyU93Tg8Co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528573428539-cqbqnspoj7s5j652s8pc2d9depk62kku.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "528573428539-b8dl38bdle6ate38rrp8ir5dit0jeei4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.abinSecondApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
