@@ -34,21 +34,9 @@ class EmergencyProfilePage extends StatelessWidget {
               const SizedBox(height: 20.0),
               CustomTextField(
                   labelText: "Date of birth", controller: _dateController),
-              const SizedBox(height: 30.0),
-              SizedBox(
-                width: 50.0,
-                height: 35.0,
-                child: Center(
-                  child: CustomButton(
-                    text: 'Save',
-                    onPressed: () => {
-                      //Add button functionality
-                      debugPrint('Saved personal information')
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(height: 50),
+              const SizedBox(height:10.0),
+              
+              const SizedBox(height: 40.0),
               const Text(
                 'Medical Information',
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
@@ -61,19 +49,7 @@ class EmergencyProfilePage extends StatelessWidget {
                   labelText: 'Medical Conditions or allergies if any',
                   controller: _medicalController),
               const SizedBox(height: 30.0),
-              SizedBox(
-                width: 50.0,
-                height: 35.0,
-                child: Center(
-                  child: CustomButton(
-                    text: 'Save',
-                    onPressed: () => {
-                      //Add button functionality
-                      debugPrint('Saved medical information')
-                    },
-                  ),
-                ),
-              ),
+              
               const SizedBox(height: 20.0),
               Container(
                 padding: const EdgeInsets.only(right: 50, left: 50),
