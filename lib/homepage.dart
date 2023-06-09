@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:AlertMe/pages/AlerPage.dart';
-import 'package:AlertMe/widgets/HamburgerMenu.dart';
-import 'package:AlertMe/pages/NearByAlerts.dart';
+import 'package:alert_me/pages/alert_page.dart';
+import 'package:alert_me/widgets/hamburger_menu.dart';
+import 'package:alert_me/pages/nearby_alerts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

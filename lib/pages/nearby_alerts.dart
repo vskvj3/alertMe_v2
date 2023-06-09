@@ -1,4 +1,4 @@
-import 'package:AlertMe/widgets/AlertListField.dart';
+import 'package:alert_me/widgets/alert_list_field.dart';
 import 'package:flutter/material.dart';
 
 class AlertsNear extends StatelessWidget {
@@ -12,16 +12,17 @@ class AlertsNear extends StatelessWidget {
         children: const [
           //will appear only if an alert is recieved
 
-          alertListField(
+          AlertListField(
               distance: '500m away', nearFar: 'Near', name: 'Jane Doe'),
           SizedBox(
             height: 10.0,
           ),
-          alertListField(
+          AlertListField(
             distance: '5.2Km away',
             name: 'Mathew alex',
             nearFar: 'Far',
           ),
+      
         ],
       ),
     );

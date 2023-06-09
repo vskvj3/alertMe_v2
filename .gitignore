@@ -17,6 +17,7 @@ web/
 windows/
 ios/
 
+node_modules/
 
 # IntelliJ related
 *.iml
