@@ -8,7 +8,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  List<bool> _checkboxValues = [false, false, false, false, false];
+  List<bool> _checkboxValues = [false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +23,11 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: EdgeInsets.only(left: 20, right: 20),
           child: ListView(
             children: [
-              SizedBox(height: 20),
-              Padding(
-                padding: EdgeInsets.only(top: 30, left: 0),
-                child: Text(
-                  'Who should get the alert?',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                ),
-              ),
+              SizedBox(height: 50.0),
 
-              SizedBox(height: 30),
-
-              CheckboxListTile(
+            CheckboxListTile(
                   title: Text(
-                    'Emergency Contacts',
+                    'Permanent notifiaction',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
                   ),
@@ -52,9 +43,19 @@ class _SettingsPageState extends State<SettingsPage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
 
-              SizedBox(height: 20),
-// add color and borderradius
-              CheckboxListTile(
+              SizedBox(height:10),
+            
+              Padding(
+                padding: EdgeInsets.only(top: 30, left: 0),
+                child: Text(
+                  'Who should get the alert?',
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                ),
+              ),
+
+              SizedBox(height: 30),
+
+               CheckboxListTile(
                   title: Text(
                     'Nearby Users',
                     style:
@@ -75,9 +76,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 height: 20,
               ),
 
+
               CheckboxListTile(
                   title: Text(
-                    'Police',
+                    'Emergency Contacts',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
                   ),
@@ -92,7 +94,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   tileColor: Color(0xFFF9D1D1),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
+
               SizedBox(height: 20),
+// add color and borderradius
+              
 
               Container(
                 decoration: BoxDecoration(
@@ -115,24 +120,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
               SizedBox(height: 20),
 
-              Container(
-                decoration: BoxDecoration(
-                    color: Color(0xFFF9D1D1),
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: CheckboxListTile(
-                  title: Text('All'),
-                  value: _checkboxValues[4],
-                  activeColor: Colors.pink,
-                  checkColor: Colors.white,
-                  onChanged: (value) {
-                    setState(
-                      () {
-                        _checkboxValues[4] = value!;
-                      },
-                    );
-                  },
-                ),
-              ),
+            
+              
             ],
           ),
         )));
