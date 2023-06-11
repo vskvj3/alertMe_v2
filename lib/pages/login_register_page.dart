@@ -15,6 +15,7 @@ class _LoginRegisterState extends State<LoginRegister> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _otpController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  var _otpscreenvisibility = false;
   var _verificationCode;
   final snackBar = const SnackBar(
     content: Text('Wrong OTP'),
@@ -31,85 +32,70 @@ class _LoginRegisterState extends State<LoginRegister> {
           width: 300.0,
           child: Form(
             key: _formKey,
-            child: ListView(
+            child: Column(
               children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                    prefix: Text("+91 "),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.amber,
-                          width: 0,
-                          style: BorderStyle.none),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    contentPadding: EdgeInsets.only(left: 20),
-                    filled: true,
-                    fillColor: Color(0xFFF9D1D1),
-                    labelText: "Phone",
-                    // floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    // contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    labelStyle: TextStyle(
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  controller: _phoneNumberController,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    const pattern = r'[0-9]{10}';
-                    final regExp = RegExp(pattern);
-                    if (!regExp.hasMatch(value!))
-                      return 'Enter Valid Phone Number';
-                    return null;
-                  },
-                  onFieldSubmitted: (value) =>
-                      _formKey.currentState?.validate(),
-                ),
-                const SizedBox(height: 20),
-                CustomButton(text: 'send OTP', onPressed: verifyOTP),
-                const SizedBox(height: 40),
-                CustomTextField(
-                    labelText: 'Enter OTP', controller: _otpController),
                 Visibility(
-                  visible: false,
-                  child: Row(children: [
-                    const Text("Didn't get OTP?"),
-                    TextButton(
-                        onPressed: () => {},
-                        child: const Text(
-                          'send again',
-                          style: TextStyle(color: Colors.black),
-                        ))
-                  ]),
+                  visible: !_otpscreenvisibility,
+                  child: Column(
+                    children: [
+                      phoneTextField(
+                          phoneNumberController: _phoneNumberController,
+                          formKey: _formKey),
+                      const SizedBox(height: 20),
+                      CustomButton(text: 'send OTP', onPressed: verifyOTP),
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 20.0,
+                Visibility(
+                  visible: _otpscreenvisibility,
+                  child: Column(
+                    children: [
+                      CustomTextField(
+                          labelText: 'Enter OTP', controller: _otpController),
+                      Visibility(
+                        visible: false,
+                        child: Row(children: [
+                          const Text("Didn't get OTP?"),
+                          TextButton(
+                              onPressed: () => {},
+                              child: const Text(
+                                'send again',
+                                style: TextStyle(color: Colors.black),
+                              ))
+                        ]),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      CustomButton(
+                          text: 'Register',
+                          onPressed: () {
+                            try {
+                              FirebaseAuth.instance
+                                  .signInWithCredential(
+                                      PhoneAuthProvider.credential(
+                                          verificationId: _verificationCode,
+                                          smsCode: _otpController.text))
+                                  .then((value) async {
+                                if (value.user != null) {
+                                  debugPrint("user logged in....");
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomePage()),
+                                      (route) => false);
+                                }
+                              });
+                            } catch (e) {
+                              FocusScope.of(context).unfocus();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          })
+                    ],
+                  ),
                 ),
-                CustomButton(
-                    text: 'Register',
-                    onPressed: () {
-                      try {
-                        FirebaseAuth.instance
-                            .signInWithCredential(PhoneAuthProvider.credential(
-                                verificationId: _verificationCode,
-                                smsCode: _otpController.text))
-                            .then((value) async {
-                          if (value.user != null) {
-                            debugPrint("user logged in....");
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomePage()),
-                                (route) => false);
-                          }
-                        });
-                      } catch (e) {
-                        FocusScope.of(context).unfocus();
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                    })
               ],
             ),
           ),
@@ -144,10 +130,57 @@ class _LoginRegisterState extends State<LoginRegister> {
       },
       codeSent: (String verificationId, int? resendToken) {
         setState(() {
+          _otpscreenvisibility = true;
           _verificationCode = verificationId;
         });
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
+}
+
+class phoneTextField extends StatelessWidget {
+  const phoneTextField({
+    super.key,
+    required TextEditingController phoneNumberController,
+    required GlobalKey<FormState> formKey,
+  })  : _phoneNumberController = phoneNumberController,
+        _formKey = formKey;
+
+  final TextEditingController _phoneNumberController;
+  final GlobalKey<FormState> _formKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: const InputDecoration(
+        prefix: Text("+91 "),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Colors.amber, width: 0, style: BorderStyle.none),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        contentPadding: EdgeInsets.only(left: 20),
+        filled: true,
+        fillColor: Color(0xFFF9D1D1),
+        labelText: "Phone",
+        // floatingLabelBehavior: FloatingLabelBehavior.auto,
+        // contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        labelStyle: TextStyle(
+          fontSize: 13.0,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      controller: _phoneNumberController,
+      keyboardType: TextInputType.number,
+      validator: (value) {
+        const pattern = r'[0-9]{10}';
+        final regExp = RegExp(pattern);
+        if (!regExp.hasMatch(value!)) return 'Enter Valid Phone Number';
+        return null;
+      },
+      onFieldSubmitted: (value) => _formKey.currentState?.validate(),
     );
   }
 }
