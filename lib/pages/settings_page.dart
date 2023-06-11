@@ -11,28 +11,15 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   final List<bool> _checkboxValues = [false, false, false, false];
 
-
   // final List<bool> _checkboxValues = [false, false, false, false, false];
-   @override
+  @override
   void initState() {
     super.initState();
     init();
   }
 
-Future<void> init() async {
-  final List temp = jsonDecode(await SettingStorage.retrieveSettings() ?? "[]");
-  if (temp.isNotEmpty) {
-    setState(() {
-      _checkboxValues[0] = temp[0];
-       _checkboxValues[1] = temp[1];
-        _checkboxValues[2] = temp[2];
-         _checkboxValues[3] = temp[3];
-    });
-  }
-}
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,7 +34,7 @@ Future<void> init() async {
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: ListView(
             children: [
-             const SizedBox(height: 50.0),
+              const SizedBox(height: 50.0),
 
               Container(
                 decoration: BoxDecoration(
@@ -59,12 +46,11 @@ Future<void> init() async {
                   activeColor: Colors.pink,
                   checkColor: Colors.white,
                   onChanged: (value) async {
-                    setState(
-                      ()  {
-                        _checkboxValues[0] = value!;
-                      } 
-                    );
-                    await SettingStorage.storeSettings(jsonEncode(_checkboxValues));
+                    setState(() {
+                      _checkboxValues[0] = value!;
+                    });
+                    await SettingStorage.storeSettings(
+                        jsonEncode(_checkboxValues));
                   },
                 ),
               ),
@@ -80,7 +66,6 @@ Future<void> init() async {
 
               const SizedBox(height: 30),
 
-
               Container(
                 decoration: BoxDecoration(
                     color: const Color(0xFFF9D1D1),
@@ -95,14 +80,16 @@ Future<void> init() async {
                       () {
                         _checkboxValues[1] = value!;
                       },
-                      
                     );
-                    await SettingStorage.storeSettings(jsonEncode(_checkboxValues));
+                    await SettingStorage.storeSettings(
+                        jsonEncode(_checkboxValues));
                   },
                 ),
               ),
 
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
 
               CheckboxListTile(
                   title: const Text(
@@ -117,7 +104,8 @@ Future<void> init() async {
                         _checkboxValues[2] = value!;
                       },
                     );
-                    await SettingStorage.storeSettings(jsonEncode(_checkboxValues));
+                    await SettingStorage.storeSettings(
+                        jsonEncode(_checkboxValues));
                   },
                   activeColor: Colors.pink,
                   checkColor: Colors.white,
@@ -125,12 +113,9 @@ Future<void> init() async {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
 
-
-
               const SizedBox(
                 height: 10,
               ),
-
 
 // add color and borderradius
               const SizedBox(height: 20),
@@ -150,14 +135,13 @@ Future<void> init() async {
                         _checkboxValues[3] = value!;
                       },
                     );
-                    await SettingStorage.storeSettings(jsonEncode(_checkboxValues));
+                    await SettingStorage.storeSettings(
+                        jsonEncode(_checkboxValues));
                   },
                 ),
               ),
 
               const SizedBox(height: 20),
-
-              
             ],
           ),
         ),
