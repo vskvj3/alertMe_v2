@@ -48,7 +48,7 @@ class LoginRegister extends StatelessWidget {
                     if (context.mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       )
     }
               })
