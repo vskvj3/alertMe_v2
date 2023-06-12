@@ -1,91 +1,176 @@
+import 'dart:convert';
+import 'package:alert_me/utils/validate_data.dart';
 import 'package:alert_me/widgets/text_field.dart';
-import 'package:alert_me/widgets/save_or_add_button.dart';
 import 'package:flutter/material.dart';
+import '../utils/emergency_contact_storage.dart';
+import '../widgets/save_or_add_button.dart';
 
-class EmergencyContactsPage extends StatelessWidget {
+class EmergencyContactsPage extends StatefulWidget {
+  const EmergencyContactsPage({super.key});
+
+  @override
+  State<EmergencyContactsPage> createState() => _EmergencyContactsPageState();
+}
+
+class _EmergencyContactsPageState extends State<EmergencyContactsPage> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
-  EmergencyContactsPage({super.key});
+  List<List<String>> emergencyContactList = [];
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future init() async {
+    final dynamic temp =
+        jsonDecode(await EmergencyDataStorage.readAllContacts() ?? "[]");
+
+    if (temp != "[]") {
+      for (var item in temp) {
+        if (item is List<dynamic>) {
+          emergencyContactList.add(List<String>.from(item));
+        }
+      }
+      setState(() {
+        emergencyContactList;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child:Scaffold(
+    return SafeArea(
+      child: Scaffold(
         appBar: AppBar(
-          backgroundColor:const Color.fromRGBO(170, 219, 253, 1),
-          title: const Text('Emergency Contacts',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+          backgroundColor: const Color.fromRGBO(170, 219, 253, 1),
+          title: const Text(
+            'Emergency Contacts',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
         ),
-        body: Container(
-            padding: const EdgeInsets.only(left: 20.0, top: 25.0, right: 20),
-            child: ListView(
-              children: [
-                const Text(
-                  'Edit Emergency Contacts',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                ),
-
-                const SizedBox(height: 40.0),
-                CustomTextField(
-                    labelText: "Phone Number",
-                    controller: _phoneNumberController),
-                const SizedBox(height: 20.0),
-                CustomTextField(labelText: "Name", controller: _nameController),
-                const SizedBox(height: 30.0),
-                SizedBox(
-                  width: 50.0,
-                  height: 35.0,
-                  child: Center(
-                      child: CustomButton(
-                          text: 'Add',
-                          onPressed: () => {
-                                //Add button functionality
-                                debugPrint('Added')
-                              })),
-                ),
-                const SizedBox(height: 50),
-                const Text(
-                  'Your Emergency Contacts',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                ),
-
-// only if any emergency contact is added
-
-                const SizedBox(height: 40.0),
-                Container(
-                  height: 42.0,
-                  width: 100.0,
-                  decoration: BoxDecoration(
-                      color: const Color(0xFFF9D1D1),
-                      borderRadius: BorderRadius.circular(10.0)),
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Row(children: [
-                    const Text('Contact1',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                        )),
-                    const SizedBox(
-                      width: 200.0,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding:
+                    const EdgeInsets.only(left: 20.0, top: 25.0, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Edit Emergency Contacts',
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.w500),
                     ),
-                    //   CustomButton(text: 'Remove', onPressed: ()=>{})
+                    const SizedBox(height: 40.0),
+                    CustomTextField(
+                        labelText: "Name", controller: _nameController),
+                    const SizedBox(height: 20.0),
+                    CustomTextField(
+                      labelText: "Phone Number",
+                      controller: _phoneNumberController,
+                    ),
+                    const SizedBox(height: 30.0),
+                    Center(
+                      child: SizedBox(
+                        width: 120.0,
+                        height: 35.0,
+                        child: CustomButton(
+                          text: 'Add',
+                          onPressed: () async {
+                            // Add button functionality
 
-                    GestureDetector(
-                      onTap: () {
-                        debugPrint('Removed');
-                      },
-                      child: const Text(
-                        'Remove',
-                        style: TextStyle(
-                          // decoration: TextDecoration.underline,
-                          color: Colors.blue,
+                            if (_nameController.text.isNotEmpty &&
+                                _phoneNumberController.text.isNotEmpty &&
+                                emergencyContactList.length < 5 &&
+                                PhoneValidator.validatePhoneNumber(
+                                    _phoneNumberController.text)) {
+                              final tempList = [
+                                _nameController.text,
+                                _phoneNumberController.text
+                              ];
+                              emergencyContactList.add(tempList);
+                              await EmergencyDataStorage.storeContacts(
+                                  json.encode(emergencyContactList));
+                              emergencyContactList = [];
+                              final dynamic temp = jsonDecode(
+                                  await EmergencyDataStorage
+                                          .readAllContacts() ??
+                                      "[]");
+                              if (temp != "") {
+                                for (var item in temp) {
+                                  if (item is List<dynamic>) {
+                                    emergencyContactList
+                                        .add(List<String>.from(item));
+                                  }
+                                }
+                                setState(() {
+                                  emergencyContactList;
+                                });
+                              }
+                            }
+                          },
                         ),
                       ),
-                    )
-                  ]),
-                )
+                    ),
+                    const SizedBox(height: 50),
+                    const Text(
+                      "Emergency Contact List :",
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ),
+              if (emergencyContactList.isEmpty) ...[
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "No Emergency contacts currently entered",
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                ),
+              ] else ...[
+                Container(
+                  padding:
+                      const EdgeInsets.only(left: 20.0, top: 25.0, right: 20),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: emergencyContactList.length,
+                    itemBuilder: (BuildContext context, int index) => Card(
+                      color: const Color(0xFFF9D1D1),
+                      child: ListTile(
+                        trailing: TextButton(
+                            onPressed: () async {
+                              setState(() {
+                              emergencyContactList.removeAt(index);
+                            });
+                            await EmergencyDataStorage.storeContacts(
+                              json.encode(emergencyContactList),
+                            );
+                            },
+                            child: const Text("Remove")),
+                        contentPadding: const EdgeInsets.only(left: 10),
+                        title: Text(
+                          emergencyContactList[index][0],
+                          key: Key('title_row_$index'),
+                        ),
+                        subtitle: Text(
+                          emergencyContactList[index][1],
+                          key: Key('subtitle_row_$index'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
-            ))));
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

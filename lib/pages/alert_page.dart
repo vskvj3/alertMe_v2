@@ -38,18 +38,19 @@ class _AlertPageState extends State<AlertPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Visibility(
-          visible: isVisible,
-          child: alertButton(),
+    return Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: isVisible == false
+            ?[
+              alertCountDown(),
+            ]
+            :[
+              alertButton(),
+            ],
+          ),
         ),
-        Visibility(
-          visible: !isVisible,
-          child: alertCountDown(),
-        ),
-      ],
     );
   }
 
