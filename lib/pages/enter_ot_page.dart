@@ -3,6 +3,31 @@ import 'package:alert_me/widgets/text_field.dart';
 import 'package:alert_me/widgets/save_or_add_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
+import 'dart:convert';
+
+import 'package:http/http.dart';
+
+registerUser(String? phone, String? login_key) async {
+  final uri = Uri.parse('https://alertme.onrender.com/api/v1/register');
+  final headers = {'Content-Type': 'application/json'};
+  Map<String, dynamic> body = {'phone': phone, 'login_key': login_key};
+  String jsonBody = json.encode(body);
+  final encoding = Encoding.getByName('utf-8');
+
+  Response response = await post(
+    uri,
+    headers: headers,
+    body: jsonBody,
+    encoding: encoding,
+  );
+
+  int statusCode = response.statusCode;
+  debugPrint("status code ${statusCode}");
+  String responseBody = response.body;
+  Map<String, dynamic> mapresponse = jsonDecode(responseBody);
+  debugPrint("body ${mapresponse}");
+  return mapresponse;
+}
 
 class LoginRegister extends StatefulWidget {
   const LoginRegister({super.key});
@@ -71,7 +96,7 @@ class _LoginRegisterState extends State<LoginRegister> {
         ),
         CustomButton(
             text: 'Register',
-            onPressed: () {
+            onPressed: () async {
               try {
                 FirebaseAuth.instance
                     .signInWithCredential(PhoneAuthProvider.credential(
@@ -79,7 +104,14 @@ class _LoginRegisterState extends State<LoginRegister> {
                         smsCode: _otpController.text))
                     .then((value) async {
                   if (value.user != null) {
-                    debugPrint("user logged in....");
+                    debugPrint("[value] ${value}");
+                    debugPrint("[value.user] ${value.user!.uid}");
+                    debugPrint("[value.hashCode] ${value.user!.phoneNumber}");
+                    debugPrint("[value.credential] ${value.credential}");
+                    var response =
+                        registerUser(value.user!.phoneNumber, value.user!.uid);
+                    debugPrint("response: ${response}");
+
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -99,7 +131,7 @@ class _LoginRegisterState extends State<LoginRegister> {
   Column phoneNumberScreen() {
     return Column(
       children: [
-        phoneTextField(
+        PhoneTextField(
             phoneNumberController: _phoneNumberController, formKey: _formKey),
         const SizedBox(height: 20),
         CustomButton(
@@ -122,9 +154,10 @@ class _LoginRegisterState extends State<LoginRegister> {
               .signInWithCredential(credential)
               .then((value) async {
             if (value.user != null) {
+              print('creadential: ${credential}');
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                   (route) => false);
             }
           });
@@ -150,8 +183,8 @@ class _LoginRegisterState extends State<LoginRegister> {
   }
 }
 
-class phoneTextField extends StatelessWidget {
-  const phoneTextField({
+class PhoneTextField extends StatelessWidget {
+  const PhoneTextField({
     super.key,
     required TextEditingController phoneNumberController,
     required GlobalKey<FormState> formKey,

@@ -25,7 +25,7 @@ class _LoadingPageState extends State<LoadingPage> {
     if (context.mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginRegister()),
+        MaterialPageRoute(builder: (context) => const LoginRegister()),
       );
     }
   }
