@@ -86,7 +86,7 @@ class _EmergencyContactsPageState extends State<EmergencyContactsPage> {
                                 _phoneNumberController.text.isNotEmpty &&
                                 emergencyContactList.length < 5 &&
                                 PhoneValidator.validatePhoneNumber(
-                                    _phoneNumberController.text)) {
+                                    _phoneNumberController.text) && !(PhoneValidator.checkDuplicate(emergencyContactList,_phoneNumberController.text))) {
                               final tempList = [
                                 _nameController.text,
                                 _phoneNumberController.text
