@@ -4,4 +4,12 @@ class PhoneValidator {
     RegExp regexNum = RegExp(numPattern);
     return regexNum.hasMatch(phoneNumber);
   }
+  static bool checkDuplicate(List<List<String>> emergencyContactList,String phoneNumString){
+    for (var temp in emergencyContactList){
+      if(temp.contains(phoneNumString)){
+        return true;
+      }
+    }
+    return false;
+  }
 }
