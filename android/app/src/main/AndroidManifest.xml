@@ -1,10 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.abin_second_app">
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.SEND_SMS"/>
-=======
     <uses-permission android:name="android.permission.INTERNET" />
->>>>>>> ec808a2f60bef1bcae2558492a8f4e5c89c1babb
    <application
         android:label="AlertMe"
         android:name="${applicationName}"
