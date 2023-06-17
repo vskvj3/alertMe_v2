@@ -1,4 +1,4 @@
-import 'package:alert_me/pages/login_register_page.dart';
+import 'package:alert_me/pages/register_page.dart';
 import 'package:flutter/material.dart';
 // import 'package:alert_me/homepage.dart';
 import 'dart:async';
@@ -25,7 +25,7 @@ class _LoadingPageState extends State<LoadingPage> {
     if (context.mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginRegister()),
+        MaterialPageRoute(builder: (context) => const LoginRegister()),
       );
     }
   }
