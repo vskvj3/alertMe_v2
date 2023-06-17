@@ -1,4 +1,5 @@
 import 'dart:async';
+// import 'package:alert_me/utils/alert_sms.dart';
 import 'package:flutter/material.dart';
 
 class AlertPage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _AlertPageState extends State<AlertPage> {
         });
       } else {
         setState(() {
+          // SMSSender.sendSMS();
           timer?.cancel();
           seconds = maxSeconds;
           isVisible = !isVisible;
@@ -130,9 +132,13 @@ class _AlertPageState extends State<AlertPage> {
       child: ElevatedButton(
         onPressed: () {
           startTimer();
+          
           setState(() {
             isVisible = !isVisible;
+            
           });
+
+          
 
           // Handle panic button press event
         },
