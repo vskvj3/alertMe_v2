@@ -72,7 +72,7 @@ class _LoginRegisterState extends State<LoginRegister> {
           height: 20.0,
         ),
         ElevatedButton(
-          onPressed: _isVerifyPressed
+          onPressed: !_isVerifyPressed
               ? () async {
                   setState(() {
                     _isVerifyPressed = true;
