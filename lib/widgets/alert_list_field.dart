@@ -1,18 +1,21 @@
 //widget for the recieved alert fields in the 'Alerts recievced' section
 
 import 'package:alert_me/pages/alert_details.dart';
+import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:flutter/material.dart';
 
 class AlertListField extends StatelessWidget {
   final String name;
   final String distance;
   final String nearFar;
-
+  final AlertData alertDetails;
   const AlertListField(
       {super.key,
       required this.name,
       required this.distance,
-      required this.nearFar});
+      required this.nearFar,
+      required this.alertDetails
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class AlertListField extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const AlertDetails(),
+            builder: (context) =>  AlertDetails(alertDetails: alertDetails,),
           ),
         )
       },

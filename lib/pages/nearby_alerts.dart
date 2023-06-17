@@ -1,29 +1,44 @@
+import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:alert_me/widgets/alert_list_field.dart';
 import 'package:flutter/material.dart';
+class AlertsNear extends StatefulWidget {
+  const AlertsNear({Key? key}) : super(key: key);
 
-class AlertsNear extends StatelessWidget {
-  const AlertsNear({super.key});
+  @override
+  State<AlertsNear> createState() => _AlertsNearState();
+}
+
+class _AlertsNearState extends State<AlertsNear> {
+  List<AlertData> alertDataList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    alertDataList = await AlertReceiver.fetchAlert();
+    setState(() {
+      alertDataList;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 2, top: 50, right: 2),
-      child: ListView(
-        children: const [
-          //will appear only if an alert is recieved
-
-          AlertListField(
-              distance: '500m away', nearFar: 'Near', name: 'Jane Doe'),
-          SizedBox(
-            height: 10.0,
-          ),
-          AlertListField(
-            distance: '5.2Km away',
-            name: 'Mathew alex',
-            nearFar: 'Far',
-          ),
-      
-        ],
+    return SingleChildScrollView(
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: alertDataList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return AlertListField(
+            distance: alertDataList[index].location!,
+            nearFar: "to be done",
+            name: (alertDataList[index].name== null)?"joe":alertDataList[index].name!,
+            alertDetails: alertDataList[index],
+          );
+        },
       ),
     );
   }

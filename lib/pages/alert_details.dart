@@ -1,8 +1,10 @@
+import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:flutter/material.dart';
 
 
 class AlertDetails extends StatelessWidget {
-  const AlertDetails({super.key});
+  final AlertData alertDetails;
+  const AlertDetails({super.key,required this.alertDetails});
 
   // final String name;
   // final String bloodGroup;
@@ -39,25 +41,25 @@ class AlertDetails extends StatelessWidget {
                   ),
                   child: ListView(
                     children: [
-                      const Row(
+                       Row(
                         children: [
                           Expanded(
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Jane Doe',
-                                style: TextStyle(fontSize: 18),
+                                  alertDetails.name ?? 'joe',
+                                style: const TextStyle(fontSize: 18),
                               ),
                             ),
                           ),
-                          Align(
+                          const Align(
                             alignment: Alignment.centerRight,
                             child: Text('3s ago    '),
                           )
                         ],
                       ),
                       const SizedBox(height: 30.0),
-                      const Text('Blood Group : O+'),
+                      const Text('Blood Group : {alertDetails.blood_group}'),
                       const SizedBox(height: 30.0),
                       const Text('Medical Info : '),
                       const SizedBox(height: 10.0),
@@ -73,9 +75,9 @@ class AlertDetails extends StatelessWidget {
                         child: const Text('View on map'),
                       ),
                       const SizedBox(height: 35),
-                      const Text(
-                        "   5 people flagged false",
-                        style: TextStyle(color: Colors.red),
+                       Text(
+                        "   ${alertDetails.flagCount??"10"} people flagged false",
+                        style:const TextStyle(color: Colors.red),
                       )
                     ],
                   ),
