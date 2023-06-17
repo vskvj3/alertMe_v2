@@ -1,4 +1,4 @@
-import 'package:alert_me/pages/enter_ot_page.dart';
+import 'package:alert_me/pages/register_page.dart';
 import 'package:flutter/material.dart';
 // import 'package:alert_me/homepage.dart';
 import 'dart:async';

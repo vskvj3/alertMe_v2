@@ -1,33 +1,8 @@
 import 'package:alert_me/homepage.dart';
 import 'package:alert_me/widgets/text_field.dart';
-import 'package:alert_me/widgets/save_or_add_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
-import 'dart:convert';
-
-import 'package:http/http.dart';
-
-registerUser(String? phone, String? login_key) async {
-  final uri = Uri.parse('https://alertme.onrender.com/api/v1/register');
-  final headers = {'Content-Type': 'application/json'};
-  Map<String, dynamic> body = {'phone': phone, 'login_key': login_key};
-  String jsonBody = json.encode(body);
-  final encoding = Encoding.getByName('utf-8');
-
-  Response response = await post(
-    uri,
-    headers: headers,
-    body: jsonBody,
-    encoding: encoding,
-  );
-
-  int statusCode = response.statusCode;
-  debugPrint("status code ${statusCode}");
-  String responseBody = response.body;
-  Map<String, dynamic> mapresponse = jsonDecode(responseBody);
-  debugPrint("body ${mapresponse}");
-  return mapresponse;
-}
+import 'package:alert_me/utils/register_user.dart';
 
 class LoginRegister extends StatefulWidget {
   const LoginRegister({super.key});
@@ -41,7 +16,9 @@ class _LoginRegisterState extends State<LoginRegister> {
   final TextEditingController _otpController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var _otpscreenvisibility = false;
-  var _verificationCode;
+  dynamic _verificationCode;
+  var _isSendOTPPressed = false;
+  var _isVerifyPressed = false;
   final snackBar = const SnackBar(
     content: Text('Wrong OTP'),
   );
@@ -94,55 +71,80 @@ class _LoginRegisterState extends State<LoginRegister> {
         const SizedBox(
           height: 20.0,
         ),
-        CustomButton(
-            text: 'Register',
-            onPressed: () async {
-              try {
-                FirebaseAuth.instance
-                    .signInWithCredential(PhoneAuthProvider.credential(
-                        verificationId: _verificationCode,
-                        smsCode: _otpController.text))
-                    .then((value) async {
-                  if (value.user != null) {
-                    debugPrint("[value] ${value}");
-                    debugPrint("[value.user] ${value.user!.uid}");
-                    debugPrint("[value.hashCode] ${value.user!.phoneNumber}");
-                    debugPrint("[value.credential] ${value.credential}");
-                    var response =
-                        registerUser(value.user!.phoneNumber, value.user!.uid);
-                    debugPrint("response: ${response}");
+        ElevatedButton(
+          onPressed: _isVerifyPressed
+              ? () async {
+                  setState(() {
+                    _isVerifyPressed = true;
+                  });
+                  try {
+                    FirebaseAuth.instance
+                        .signInWithCredential(PhoneAuthProvider.credential(
+                            verificationId: _verificationCode,
+                            smsCode: _otpController.text))
+                        .then((value) async {
+                      if (value.user != null) {
+                        var response = registerUser(
+                            value.user!.phoneNumber, value.user!.uid);
+                        debugPrint("response: $response");
 
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                        (route) => false);
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                            (route) => false);
+                      }
+                    });
+                  } catch (e) {
+                    FocusScope.of(context).unfocus();
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                });
-              } catch (e) {
-                FocusScope.of(context).unfocus();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
-            })
+                }
+              : null,
+          child: const Text('Register'),
+        ),
+        loadingIndicator(_isVerifyPressed)
       ],
     );
   }
 
-  Column phoneNumberScreen() {
+  Widget phoneNumberScreen() {
     return Column(
       children: [
         PhoneTextField(
             phoneNumberController: _phoneNumberController, formKey: _formKey),
         const SizedBox(height: 20),
-        CustomButton(
-            text: 'send OTP',
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                verifyOTP();
-              }
-            }),
+        ElevatedButton(
+          onPressed: !_isSendOTPPressed
+              ? () async {
+                  if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      _isSendOTPPressed = true;
+                    });
+                    verifyOTP();
+                  }
+                }
+              : null,
+          child: const Text('send OTP'),
+        ),
+        loadingIndicator(_isSendOTPPressed)
       ],
     );
+  }
+
+  Widget loadingIndicator(check) {
+    if (check == true) {
+      return const Column(
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          CircularProgressIndicator(),
+        ],
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 
   void verifyOTP() async {
@@ -154,7 +156,7 @@ class _LoginRegisterState extends State<LoginRegister> {
               .signInWithCredential(credential)
               .then((value) async {
             if (value.user != null) {
-              print('creadential: ${credential}');
+              debugPrint('creadential: $credential');
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const HomePage()),

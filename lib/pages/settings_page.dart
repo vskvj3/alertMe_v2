@@ -20,6 +20,19 @@ class _SettingsPageState extends State<SettingsPage> {
     init();
   }
 
+  Future<void> init() async {
+    final List temp =
+        jsonDecode(await SettingStorage.retrieveSettings() ?? "[]");
+    if (temp.isNotEmpty) {
+      setState(() {
+        _checkboxValues[0] = temp[0];
+        _checkboxValues[1] = temp[1];
+        _checkboxValues[2] = temp[2];
+        _checkboxValues[3] = temp[3];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
