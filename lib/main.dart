@@ -1,4 +1,5 @@
 //import 'package:AlertMe/pages/Login_RegisterPage.dart';
+import 'package:alert_me/widgets/alert_notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:alert_me/loadingpage.dart';
@@ -10,6 +11,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   debugPrint("Handling a background message: ${message.messageId}");
   debugPrint('Background Message data: ${message.data}');
+  AlertNotif(message.data['id'])
+      .showNotification(title: "alert Recieved", body: message.data['name']);
   if (message.notification != null) {
     debugPrint(
         'Message also contained a notification: ${message.notification}');
@@ -26,8 +29,12 @@ void main() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     debugPrint('Got a message whilst in the foreground!');
     debugPrint('Message data: ${message.data}');
+    AlertNotif(message.data['id'])
+        .showNotification(title: "alert Recieved", body: message.data['name']);
 
     if (message.notification != null) {
+      AlertNotif(message.data['id'])
+          .showNotification(title: "alert Recieved", body: "name");
       debugPrint(
           'Message also contained a notification: ${message.notification}');
     }
