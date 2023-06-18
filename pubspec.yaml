@@ -42,6 +42,7 @@ dependencies:
   firebase_auth: ^4.6.2
   http: ^1.0.0
   flutter_secure_storage: ^8.0.0
+  firebase_messaging: ^14.6.3
 
 dev_dependencies:
   flutter_test:

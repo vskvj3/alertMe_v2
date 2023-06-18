@@ -1,7 +1,11 @@
+import 'package:alert_me/homepage.dart';
 import 'package:alert_me/pages/register_page.dart';
+import 'package:alert_me/utils/request_token.dart';
 import 'package:flutter/material.dart';
 // import 'package:alert_me/homepage.dart';
 import 'dart:async';
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});
@@ -11,23 +15,42 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
+  checkLoggedIn() async {}
+
   @override
   void initState() {
     super.initState();
+    // requestPermissions();
     startLoadingProcess();
   }
 
   Future<void> startLoadingProcess() async {
     // Simulate loading process
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
+
+    requestPermissions();
+    final storage = FlutterSecureStorage();
+    var loggedin = await storage.read(key: 'loggedin');
+    debugPrint("loggedin: $loggedin");
+    if (loggedin == null) {
+      debugPrint("Not logged in ");
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginRegister()),
+        );
+      }
+    } else if (loggedin == 'true') {
+      debugPrint("user logged in");
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      }
+    }
 
     // After loading, navigate to the main app
-    if (context.mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginRegister()),
-      );
-    }
   }
 
   // void startLoadingProcess() {
