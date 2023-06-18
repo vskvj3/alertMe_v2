@@ -1,6 +1,7 @@
-package com.example.abin_second_app
+package com.alertme.emergency
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity() {
-}
+class MainActivity: FlutterActivity() {}
+
+

@@ -41,18 +41,18 @@ class _AlertPageState extends State<AlertPage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: isVisible == false
-            ?[
-              alertCountDown(),
-            ]
-            :[
-              alertButton(),
-            ],
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: isVisible == false
+              ? [
+                  alertCountDown(),
+                ]
+              : [
+                  alertButton(),
+                ],
         ),
+      ),
     );
   }
 
@@ -125,20 +125,16 @@ class _AlertPageState extends State<AlertPage> {
 
   Container alertButton() {
     return Container(
-      
       height: 293.0,
       padding: const EdgeInsets.only(),
       alignment: Alignment.center,
       child: ElevatedButton(
         onPressed: () {
           startTimer();
-          
+
           setState(() {
             isVisible = !isVisible;
-            
           });
-
-          
 
           // Handle panic button press event
         },
