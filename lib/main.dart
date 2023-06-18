@@ -5,10 +5,27 @@ import 'package:alert_me/loadingpage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  debugPrint("Handling a background message: ${message.messageId}");
+  debugPrint('Background Message data: ${message.data}');
+  if (message.notification != null) {
+    debugPrint(
+        'Message also contained a notification: ${message.notification}');
+  }
+}
+
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
+    debugPrint('Got a message whilst in the foreground!');
+    debugPrint('Message data: ${message.data}');
 
     if (message.notification != null) {
       debugPrint(
@@ -16,10 +33,6 @@ void main() async {
     }
   });
 
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   runApp(const MyApp());
 }
 
