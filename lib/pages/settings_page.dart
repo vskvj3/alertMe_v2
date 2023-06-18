@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alert_me/utils/emergency_notif.dart';
 import 'package:alert_me/utils/settings_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -61,9 +62,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   onChanged: (value) async {
                     setState(() {
                       _checkboxValues[0] = value!;
+                       
                     });
                     await SettingStorage.storeSettings(
                         jsonEncode(_checkboxValues));
+                    if (value!) {
+                      AppNotif().showNotification(title: "Sample", body: "Notification Enabled");
+                    } else {
+                      AppNotif().appNotif.cancelAll();
+                    }
                   },
                 ),
               ),

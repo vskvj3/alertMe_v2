@@ -18,7 +18,7 @@ class _AlertsNearState extends State<AlertsNear> {
   }
 
   Future<void> init() async {
-    alertDataList = await AlertReceiver.fetchAlert();
+    alertDataList = await AlertReceiver.fetchAllAlert();
     setState(() {
       alertDataList;
     });
@@ -33,9 +33,9 @@ class _AlertsNearState extends State<AlertsNear> {
         itemCount: alertDataList.length,
         itemBuilder: (BuildContext context, int index) {
           return AlertListField(
-            distance: alertDataList[index].location!,
+            distance: alertDataList[index].location,
             nearFar: "to be done",
-            name: (alertDataList[index].name== null)?"joe":alertDataList[index].name!,
+            name: alertDataList[index].name,
             alertDetails: alertDataList[index],
           );
         },
