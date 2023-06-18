@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:alert_me/utils/alert_functions.dart';
 import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:intl/intl.dart';
 
 
 class AlertDetails extends StatefulWidget {
@@ -16,7 +19,7 @@ class _AlertDetailsState extends State<AlertDetails> {
   
   ProfileData profileData = ProfileData("", "", "", "", "", "", "", 0, 0);
 
-  
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +36,34 @@ class _AlertDetailsState extends State<AlertDetails> {
 
   @override
   Widget build(BuildContext context) {
+
+
+  //   String differenceString;
+
+  // //  String specifiedTimeString = '09:30:00'; // Example: 9:30 AM
+
+
+  // String currentTimeString = DateFormat('HH:mm:ss').format(DateTime.now());
+  // // DateTime alertTime = DateFormat('HH:mm:ss').parse(profileData.time);
+
+
+  // DateTime alertTime = DateFormat('HH:mm:ss').parse('21:40:44');
+
+  // DateTime currentTime = DateFormat('HH:mm:ss').parse(currentTimeString);
+
+  // Duration difference = currentTime.difference(alertTime);
+
+  // int hours = difference.inHours ;
+  // int minutes = difference.inMinutes.remainder(60) ;
+  // int seconds = difference.inSeconds.remainder(60) ;
+
+  // if(hours>0){
+  //   differenceString = '$hours h $minutes m $seconds s ago';
+  // }
+  // else{
+  //   differenceString='$minutes m $seconds s ago';
+  // }
+
     return 
 
 SafeArea(
@@ -44,7 +75,7 @@ SafeArea(
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
-        body: Column(
+        body: ListView(
           children: [
             Container(
                 padding: const EdgeInsets.only(left: 10.0, top: 30, right: 10.0),
@@ -69,9 +100,9 @@ SafeArea(
                               ),
                             ),
                           ),
-                          const Align(
+                          Align(
                             alignment: Alignment.centerRight,
-                            child: Text('3s ago    '),
+                            child: Text(profileData.time),
                           )
                         ],
                       ),
