@@ -1,6 +1,7 @@
 import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:alert_me/widgets/alert_list_field.dart';
 import 'package:flutter/material.dart';
+
 class AlertsNear extends StatefulWidget {
   const AlertsNear({Key? key}) : super(key: key);
 
@@ -10,6 +11,7 @@ class AlertsNear extends StatefulWidget {
 
 class _AlertsNearState extends State<AlertsNear> {
   List<AlertData> alertDataList = [];
+  final categories = AlertReceiver.fetchAllAlert();
 
   @override
   void initState() {
@@ -26,20 +28,28 @@ class _AlertsNearState extends State<AlertsNear> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: alertDataList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return AlertListField(
-            distance: alertDataList[index].location,
-            nearFar: "to be done",
-            name: alertDataList[index].name,
-            alertDetails: alertDataList[index],
-          );
-        },
-      ),
-    );
+    return FutureBuilder(
+        future: categories,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return SingleChildScrollView(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: alertDataList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return AlertListField(
+                    distance: alertDataList[index].location,
+                    nearFar: "to be done",
+                    name: alertDataList[index].name,
+                    alertDetails: alertDataList[index],
+                  );
+                },
+              ),
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        });
   }
 }

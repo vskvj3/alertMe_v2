@@ -22,12 +22,15 @@ class AlertNotif {
 
   notificationDetails() {
     return NotificationDetails(
-      android: AndroidNotificationDetails(channelName, channelName,
-          subText: 'Emergency Near You',
-          importance: Importance.max,
-          icon: 'mipmap/ic_launcher',
-          autoCancel: false,
-          visibility: NotificationVisibility.public),
+      android: AndroidNotificationDetails(
+        channelName,
+        channelName,
+        subText: 'Emergency Near You',
+        importance: Importance.max,
+        icon: 'mipmap/ic_launcher',
+        autoCancel: false,
+        visibility: NotificationVisibility.public,
+      ),
     );
   }
 
