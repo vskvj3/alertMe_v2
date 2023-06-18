@@ -1,24 +1,41 @@
+import 'dart:convert';
+
+import 'package:alert_me/utils/alert_functions.dart';
 import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:flutter/material.dart';
 
 
-class AlertDetails extends StatelessWidget {
+class AlertDetails extends StatefulWidget {
   final AlertData alertDetails;
   const AlertDetails({super.key,required this.alertDetails});
+  @override
+  State<AlertDetails> createState() => _AlertDetailsState();
+}
 
-  // final String name;
-  // final String bloodGroup;
-  // final String medicalInfo;
+class _AlertDetailsState extends State<AlertDetails> {
+  
+  ProfileData profileData = ProfileData("", "", "", "", "", "", "", 0, 0);
 
-  // const AlertDetails({
-  //   required this.name,
-  //   required this.bloodGroup,
-  //   required this.medicalInfo
-  // });
+  
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    profileData = await AlertReceiver.fetchProfileData(widget.alertDetails.id);
+    setState(() {
+      profileData;
+    });
+  }
+ 
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return 
+
+SafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(170, 219, 253, 1),
@@ -33,7 +50,7 @@ class AlertDetails extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10.0, top: 30, right: 10.0),
                 child: Container(
                   padding: const EdgeInsets.only(left: 10.0, top: 25.0, right: 10),
-                  height: 350.0,
+                  height: 430.0,
                   width: 390.0,
                   decoration: BoxDecoration(
                     color: const Color(0xFFF9D1D1),
@@ -47,7 +64,7 @@ class AlertDetails extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                  alertDetails.name ?? 'joe',
+                                  widget.alertDetails.name,
                                 style: const TextStyle(fontSize: 18),
                               ),
                             ),
@@ -59,11 +76,11 @@ class AlertDetails extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 30.0),
-                      const Text('Blood Group : {alertDetails.blood_group}'),
+                      Text('Blood Group : ${profileData.bloodGroup}'),
                       const SizedBox(height: 30.0),
                       const Text('Medical Info : '),
                       const SizedBox(height: 10.0),
-                      const Text('Heart Patient, Diabetic'),
+                      Text(profileData.medicalDetails),
                       const SizedBox(height: 35.0),
                       ElevatedButton(
                         onPressed: () => {debugPrint("[Pressed] view on map")},
@@ -75,8 +92,13 @@ class AlertDetails extends StatelessWidget {
                         child: const Text('View on map'),
                       ),
                       const SizedBox(height: 35),
-                       Text(
-                        "   ${alertDetails.flagCount??"10"} people flagged false",
+                      Text(
+                        "   ${profileData.flagCount} people flagged false",
+                        style:const TextStyle(color: Colors.red),
+                      ),
+                      const SizedBox(height: 35),
+                      Text(
+                        "   ${profileData.viewCount} people viewed this alert",
                         style:const TextStyle(color: Colors.red),
                       )
                     ],
@@ -100,7 +122,19 @@ class AlertDetails extends StatelessWidget {
                       child: const Text("contact"),
                     ),
                     ElevatedButton(
-                      onPressed: () => {debugPrint("[pressed] flag as false")},
+                      onPressed: () async {
+                        profileData.flagCount = profileData.flagCount+1;
+                        final response = await AlertFunctions.updateCount(widget.alertDetails.id);
+                        if(response.statusCode == 200){
+                          final responseData = json.decode(response.body);
+                          profileData.flagCount = responseData['flag_count'];
+
+                        }else{throw Exception("can't update flagcount");} 
+                        setState((){
+                          profileData;
+                        });
+                        
+                      },
                       style: ElevatedButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                         backgroundColor: Colors.redAccent,
@@ -119,3 +153,4 @@ class AlertDetails extends StatelessWidget {
     );
   }
 }
+

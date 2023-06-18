@@ -10,14 +10,17 @@ class SMSSender {
     static Future<void> sendSMS() async {
     final Telephony telephony = Telephony.instance;
     bool? permissionsGranted = await telephony.requestPhoneAndSmsPermissions;
-    print(permissionsGranted);
 
+    if(permissionsGranted!){
     final dynamic temp =
         jsonDecode(await EmergencyDataStorage.readAllContacts() ?? "[]");
 
     for(var recipient in temp){
     await telephony.sendSms(to: recipient[1], message: 'Hello, this is a test message.');
-    print("SMS Sent");
+    }
+    }
+    else{
+      throw Exception("Permission not granted"); 
     }
   }
 
