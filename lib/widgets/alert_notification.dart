@@ -1,6 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class AppNotif {
+class AlertNotif {
+  String? channelName;
+  AlertNotif(String this.channelName);
   final appNotif = FlutterLocalNotificationsPlugin();
 
   Future<void> initNotification() async {
@@ -15,17 +17,16 @@ class AppNotif {
 
   notificationDetails() {
     return const NotificationDetails(
-      android: AndroidNotificationDetails('1', '2',
+      android: AndroidNotificationDetails('1', '4',
           importance: Importance.max,
           icon: 'mipmap/ic_launcher',
-          ongoing: true,
           autoCancel: false,
           visibility: NotificationVisibility.public),
     );
   }
 
   Future showNotification(
-      {int id = 0, String? title, String? body, String? payload}) async {
-    return appNotif.show(id, title, body, await notificationDetails());
+      {int? id = 1, String? title, String? body, String? payload}) async {
+    return appNotif.show(id!, title, body, await notificationDetails());
   }
 }
