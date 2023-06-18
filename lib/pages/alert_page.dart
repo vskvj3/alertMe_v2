@@ -11,6 +11,7 @@ class AlertPage extends StatefulWidget {
 
 class _AlertPageState extends State<AlertPage> {
   bool isVisible = true;
+  bool isMenuVisible = false;
   static const maxSeconds = 5;
   int seconds = maxSeconds;
   Timer? timer;
@@ -25,8 +26,10 @@ class _AlertPageState extends State<AlertPage> {
         setState(() {
           // SMSSender.sendSMS();
           timer?.cancel();
+
           seconds = maxSeconds;
-          isVisible = !isVisible;
+          // isVisible = !isVisible;
+          isMenuVisible = !isMenuVisible;
         });
       }
     });
@@ -57,70 +60,87 @@ class _AlertPageState extends State<AlertPage> {
   }
 
   Center alertCountDown() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'Sending Alerts in',
-            style: TextStyle(
-              fontSize: 20.0,
+    if (isMenuVisible == false) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Sending Alerts in',
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 50.0,
-          ),
-          SizedBox(
-            width: 100,
-            height: 100,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                CircularProgressIndicator(
-                  value: (seconds / maxSeconds),
-                  valueColor: const AlwaysStoppedAnimation(Colors.red),
-                  strokeWidth: 12,
-                ),
-                Center(
-                    child: Text(
-                  '$seconds',
-                  style: const TextStyle(
-                    fontSize: 40.0,
+            const SizedBox(
+              height: 50.0,
+            ),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  CircularProgressIndicator(
+                    value: (seconds / maxSeconds),
+                    valueColor: const AlwaysStoppedAnimation(Colors.red),
+                    strokeWidth: 12,
                   ),
-                )),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 100.0,
-          ),
-          SizedBox(
-            width: 200,
-            height: 60,
-            child: ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor:
-                    MaterialStatePropertyAll(Color.fromRGBO(128, 0, 0, 1.0)),
-                foregroundColor: MaterialStatePropertyAll(Colors.white),
+                  Center(
+                      child: Text(
+                    '$seconds',
+                    style: const TextStyle(
+                      fontSize: 40.0,
+                    ),
+                  )),
+                ],
               ),
-              onPressed: () {
-                setState(() {
-                  timer?.cancel();
-                  seconds = maxSeconds;
-                  isVisible = !isVisible;
-                });
-              },
-              child: const Text(
-                'Cancel',
-                style: TextStyle(
-                  fontSize: 20.0,
+            ),
+            const SizedBox(
+              height: 100.0,
+            ),
+            SizedBox(
+              width: 200,
+              height: 60,
+              child: ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll(Color.fromRGBO(128, 0, 0, 1.0)),
+                  foregroundColor: MaterialStatePropertyAll(Colors.white),
+                ),
+                onPressed: () {
+                  setState(() {
+                    timer?.cancel();
+                    seconds = maxSeconds;
+                    isVisible = !isVisible;
+                  });
+                },
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    } else {
+      return Center(
+        child: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    isMenuVisible = !isMenuVisible;
+                    isVisible = !isVisible;
+                  });
+                },
+                child: Text("Abort Alert"))
+          ],
+        ),
+      );
+    }
   }
 
   Container alertButton() {
