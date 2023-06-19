@@ -74,7 +74,7 @@ class _AlertDetailsState extends State<AlertDetails> {
                           ),
                           const Align(
                             alignment: Alignment.centerRight,
-                            child: Text('3s ago    '),
+                            child: Text('    '),
                           )
                         ],
                       ),
@@ -135,7 +135,11 @@ class _AlertDetailsState extends State<AlertDetails> {
                   alignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () => {debugPrint("[pressed] contact")},
+                      onPressed: () {
+                        debugPrint(profileData.phone);
+                        _launchUrl(Uri.parse('tel://${profileData.phone}'));
+                        debugPrint("[pressed] contact");
+                      },
                       style: ElevatedButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                         backgroundColor: Colors.green,
