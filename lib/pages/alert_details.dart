@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:alert_me/utils/alert_functions.dart';
 import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AlertDetails extends StatefulWidget {
@@ -19,6 +20,26 @@ class _AlertDetailsState extends State<AlertDetails> {
   void initState() {
     super.initState();
     init();
+  }
+
+  timeDiff() {
+    String currentTimeString = DateFormat('hh:mm:ss').format(DateTime.now());
+    DateTime currentTime = DateTime.parse('2000-01-01 ${currentTimeString}');
+
+    // DateTime alertTime = DateTime.parse(widget.alertDetails.time);
+    DateTime alertTime =
+        DateTime.parse('2000-01-01 ${widget.alertDetails.time}');
+
+    // DateTime startDate = DateTime.parse('2000-01-01 ${alertTime.toString()}');
+    // DateTime endDate = DateTime.parse('2000-01-01 ${currentTime.toString()}');
+
+    Duration difference = currentTime.difference(alertTime);
+
+    if (difference.inHours < 1) {
+      return "${difference.inMinutes.remainder(60)}m ago";
+    } else {
+      return "${difference.inHours}h ${difference.inMinutes.remainder(60)}m ago";
+    }
   }
 
   Future<void> _launchUrl(url) async {
@@ -72,9 +93,9 @@ class _AlertDetailsState extends State<AlertDetails> {
                               ),
                             ),
                           ),
-                          const Align(
+                          Align(
                             alignment: Alignment.centerRight,
-                            child: Text('    '),
+                            child: Text(timeDiff()),
                           )
                         ],
                       ),
