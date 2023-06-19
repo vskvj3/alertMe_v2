@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alert_me/utils/alert_sms.dart';
 import 'package:alert_me/utils/emergency_notif.dart';
 import 'package:alert_me/utils/settings_storage.dart';
 import 'package:flutter/material.dart';
@@ -62,12 +63,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   onChanged: (value) async {
                     setState(() {
                       _checkboxValues[0] = value!;
-                       
                     });
                     await SettingStorage.storeSettings(
                         jsonEncode(_checkboxValues));
                     if (value!) {
-                      AppNotif().showNotification(title: "Sample", body: "Notification Enabled");
+                      AppNotif().showNotification(
+                          title: "Sample", body: "Notification Enabled");
                     } else {
                       AppNotif().appNotif.cancelAll();
                     }
@@ -119,6 +120,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   value: _checkboxValues[2],
                   onChanged: (value) async {
+                    SMSSender().grandPermission();
                     setState(
                       () {
                         _checkboxValues[2] = value!;

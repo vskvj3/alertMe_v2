@@ -1,3 +1,4 @@
+import 'package:alert_me/utils/location_finder.dart';
 import 'package:flutter/material.dart';
 import 'package:alert_me/pages/alert_page.dart';
 import 'package:alert_me/widgets/hamburger_menu.dart';
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    LocationModule().grandPermission();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

@@ -1,5 +1,6 @@
 import 'dart:async';
 // import 'package:alert_me/utils/alert_sms.dart';
+import 'package:alert_me/utils/sent_all_alerts.dart';
 import 'package:flutter/material.dart';
 
 class AlertPage extends StatefulWidget {
@@ -26,6 +27,7 @@ class _AlertPageState extends State<AlertPage> {
         setState(() {
           // SMSSender.sendSMS();
           timer?.cancel();
+          AlertSendModule.sentAlerts();
 
           seconds = maxSeconds;
           // isVisible = !isVisible;
