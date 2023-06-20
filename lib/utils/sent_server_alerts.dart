@@ -41,6 +41,7 @@ class ServerAlerts {
         debugPrint("Erros code: ${response.statusCode}");
         if (response.statusCode == 201) {
           succeess = true;
+          return true;
         } else {
           debugPrint("invalid status code");
           await Future.delayed(const Duration(seconds: 30));

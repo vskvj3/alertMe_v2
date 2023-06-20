@@ -4,12 +4,13 @@ import 'package:alert_me/utils/settings_storage.dart';
 import 'package:alert_me/utils/alert_sms.dart';
 
 class AlertSendModule {
-  static Future<void> sentAlerts() async {
+  static Future<dynamic> sentAlerts() async {
+    var success;
     final List temp =
         jsonDecode(await SettingStorage.retrieveSettings() ?? "[]");
     if (temp.isNotEmpty) {
       if (temp[1] == true) {
-        ServerAlerts.sentAlert();
+        var success = ServerAlerts.sentAlert();
       }
       if (temp[2] == true) {
         SMSSender.sendSMS();
@@ -18,5 +19,6 @@ class AlertSendModule {
         //SMSSender.sendhealthSMS();
       }
     }
+    return success;
   }
 }
