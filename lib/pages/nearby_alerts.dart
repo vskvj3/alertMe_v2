@@ -62,8 +62,8 @@ class _AlertsNearState extends State<AlertsNear> {
     final Position currentLocation = await LocationModule.determinePosition();
     debugPrint('${currentLocation.latitude}');
     final List<dynamic> locations = json.decode(remoteLocation);
-    print("locations: ${locations[0].toDouble()}");
-    print("locations: ${locations[1]}");
+    debugPrint("locations: ${locations[0].toDouble()}");
+    debugPrint("locations: ${locations[1]}");
     String distance = LocationModule.calculateDistance(
         locations[0].toDouble(),
         locations[1].toDouble(),

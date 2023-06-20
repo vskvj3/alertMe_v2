@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alert_me/utils/location_finder.dart';
+import 'package:flutter/material.dart';
 // import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,7 +24,7 @@ class ServerAlerts {
       'location': location,
       'time': time
     };
-    print(body);
+    debugPrint('$body');
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 

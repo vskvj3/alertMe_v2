@@ -37,7 +37,7 @@ class HamburgerMenu extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => EmergencyProfilePage(),
+              builder: (context) => const EmergencyProfilePage(),
             ),
           );
           debugPrint('Emergency Profile Page');
@@ -45,7 +45,7 @@ class HamburgerMenu extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => EmergencyContactsPage(),
+              builder: (context) => const EmergencyContactsPage(),
             ),
           );
           debugPrint('Emergency Contacts Page');

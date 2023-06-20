@@ -8,19 +8,18 @@ import 'package:http/http.dart';
 
 showSnakeBar(status, context) {
   var statusSnackBar = SnackBar(
-    duration: Duration(seconds: 1),
+    duration: const Duration(seconds: 1),
     content: Text(status),
   );
   ScaffoldMessenger.of(context).showSnackBar(statusSnackBar);
 }
 
 Future<Profile> fetchProfile() async {
-  final storage = new FlutterSecureStorage();
+  const storage = FlutterSecureStorage();
   String? phone = await storage.read(key: "phone");
-  debugPrint('phone inside fetchProfile: ${phone}');
-  final profileUrl = 'https://alertme.onrender.com/api/v1/profile/${phone}';
-  debugPrint(
-      'profile url: https://alertme.onrender.com/api/v1/profile/${phone}');
+  debugPrint('phone inside fetchProfile: $phone');
+  final profileUrl = 'https://alertme.onrender.com/api/v1/profile/$phone';
+  debugPrint('profile url: https://alertme.onrender.com/api/v1/profile/$phone');
   final response = await http.get(Uri.parse(profileUrl));
   debugPrint("return status code: ${response.statusCode}");
 
@@ -39,7 +38,7 @@ Future<Profile> fetchProfile() async {
 
 Future<String> setProfile(name, dateOfBirth, bloodGroup, medicalDetails) async {
   try {
-    final storage = new FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     String? phone = await storage.read(key: "phone");
 
     final uri = Uri.parse('https://alertme.onrender.com/api/v1/profile');
@@ -115,7 +114,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _bloodGroupController = TextEditingController();
   final TextEditingController _medicalController = TextEditingController();
-  final savedProfile = SnackBar(
+  final savedProfile = const SnackBar(
     content: Text('Profile saved success'),
   );
 
@@ -127,7 +126,6 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -152,7 +150,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
                 _bloodGroupController.text = snapshot.data!.bloodGroup;
                 _medicalController.text = snapshot.data!.medicalDetails;
 
-                return profileForm(
+                return ProfileForm(
                     nameController: _nameController,
                     dateController: _dateController,
                     bloodGroupController: _bloodGroupController,
@@ -166,7 +164,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
                     child: Text("no net connection"),
                   );
                 } else {
-                  return profileForm(
+                  return ProfileForm(
                       nameController: _nameController,
                       dateController: _dateController,
                       bloodGroupController: _bloodGroupController,
@@ -175,15 +173,15 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
               }
 
               // By default, show a loading spinner.
-              return Center(child: const CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             },
           )),
     );
   }
 }
 
-class profileForm extends StatelessWidget {
-  const profileForm({
+class ProfileForm extends StatelessWidget {
+  const ProfileForm({
     super.key,
     required TextEditingController nameController,
     required TextEditingController dateController,
@@ -244,7 +242,7 @@ class profileForm extends StatelessWidget {
                   _bloodGroupController.text,
                   _medicalController.text,
                 );
-                showSnakeBar(saveStatus, context);
+                if (context.mounted) showSnakeBar(saveStatus, context);
               },
             )),
           ),

@@ -24,7 +24,7 @@ class _AlertDetailsState extends State<AlertDetails> {
 
   timeDiff() {
     String currentTimeString = DateFormat('hh:mm:ss').format(DateTime.now());
-    DateTime currentTime = DateTime.parse('2000-01-01 ${currentTimeString}');
+    DateTime currentTime = DateTime.parse('2000-01-01 $currentTimeString');
 
     // DateTime alertTime = DateTime.parse(widget.alertDetails.time);
     DateTime alertTime =

@@ -138,7 +138,7 @@ class _AlertPageState extends State<AlertPage> {
                     isVisible = !isVisible;
                   });
                 },
-                child: Text("Abort Alert"))
+                child: const Text("Abort Alert"))
           ],
         ),
       );
