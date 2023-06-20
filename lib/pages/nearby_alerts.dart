@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:alert_me/utils/location_finder.dart';
 import 'package:alert_me/widgets/alert_list_field.dart';
+import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -24,6 +25,33 @@ class _AlertsNearState extends State<AlertsNear> {
   }
 
   Future<void> init() async {
+    bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!isLocationEnabled) {
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Location is Disabled"),
+              content:
+                  const Text('Please make sure you enable GPS and try again'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    const AndroidIntent intent = AndroidIntent(
+                        action: 'android.settings.LOCATION_SOURCE_SETTINGS');
+
+                    intent.launch();
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
     alertDataList = await AlertReceiver.fetchAllAlert();
     setState(() {
       alertDataList;
@@ -42,8 +70,6 @@ class _AlertsNearState extends State<AlertsNear> {
         currentLocation.latitude.toDouble(),
         currentLocation.longitude.toDouble());
     debugPrint('distance: $distance');
-    // Calculate the distance using the current location and the remote location
-    // Replace the return statement with your distance calculation logic
     return distance;
   }
 
@@ -59,37 +85,41 @@ class _AlertsNearState extends State<AlertsNear> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: alertDataList.length,
               itemBuilder: (BuildContext context, int index) {
-                return FutureBuilder(
-                  future: findDistance(alertDataList[index].location),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      final distance = snapshot.data as String;
-                      return AlertListField(
-                        distance: distance,
-                        nearFar: "flagged: ${alertDataList[index].flagCount}",
-                        name: alertDataList[index].name,
-                        alertDetails: alertDataList[index],
-                      );
-                    } else {
-                      return const Column(
-                        children: [
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Center(child: CircularProgressIndicator()),
-                          SizedBox(
-                            height: 5,
-                          )
-                        ],
-                      );
-                    }
-                  },
-                );
+                return buildItem(index);
               },
             ),
           );
         } else {
           return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
+
+  FutureBuilder<String> buildItem(int index) {
+    return FutureBuilder(
+      future: findDistance(alertDataList[index].location),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          final distance = snapshot.data as String;
+          return AlertListField(
+            distance: distance,
+            nearFar: "flagged: ${alertDataList[index].flagCount}",
+            name: alertDataList[index].name,
+            alertDetails: alertDataList[index],
+          );
+        } else {
+          return const Column(
+            children: [
+              SizedBox(
+                height: 5,
+              ),
+              Center(child: CircularProgressIndicator()),
+              SizedBox(
+                height: 5,
+              )
+            ],
+          );
         }
       },
     );
