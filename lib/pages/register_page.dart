@@ -1,4 +1,5 @@
 import 'package:alert_me/homepage.dart';
+import 'package:alert_me/pages/emergency_profile_page.dart';
 import 'package:alert_me/widgets/text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
@@ -91,7 +92,8 @@ class _LoginRegisterState extends State<LoginRegister> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const HomePage()),
+                                builder: (context) =>
+                                    const EmergencyProfilePage()),
                             (route) => false);
                       }
                     });

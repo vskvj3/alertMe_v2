@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:alert_me/utils/sent_all_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AlertPage extends StatefulWidget {
   const AlertPage({super.key});
@@ -151,14 +152,20 @@ class _AlertPageState extends State<AlertPage> {
   Widget alertStatus() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton.filled(
-                onPressed: () {}, icon: Icon(Icons.fire_extinguisher)),
-            IconButton.filled(onPressed: () {}, icon: Icon(Icons.warning))
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     IconButton.filled(
+        //         iconSize: 60,
+        //         onPressed: () {},
+        //         icon: FaIcon(FontAwesomeIcons.fireFlameCurved)),
+        //     Padding(
+        //       padding: EdgeInsets.all(90),
+        //     ),
+        //     IconButton.filled(
+        //         onPressed: () {}, icon: FaIcon(FontAwesomeIcons.carSide)),
+        //   ],
+        // ),
         ElevatedButton(
             onPressed: () {
               secureStorage.write(key: 'screen', value: 'alert');
