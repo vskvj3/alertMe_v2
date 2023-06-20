@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:alert_me/utils/sent_all_alerts.dart';
-
-import 'package:alert_me/utils/alert_sms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,8 +28,6 @@ class _AlertPageState extends State<AlertPage> {
         AlertSendModule.sentAlerts();
         secureStorage.write(key: 'screen', value: 'status');
         setState(() {
-
-          SMSSender.sendSMS();
           timer?.cancel();
 
           seconds = maxSeconds;
