@@ -6,8 +6,6 @@ import 'package:alert_me/widgets/save_or_add_button.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 
-import '../homepage.dart';
-
 showSnakeBar(status, context) {
   var statusSnackBar = SnackBar(
     duration: const Duration(seconds: 1),
@@ -235,33 +233,17 @@ class ProfileForm extends StatelessWidget {
             width: 70.0,
             height: 35.0,
             child: Center(
-                child: Row(
-              children: [
-                CustomButton(
-                  text: 'Save Profile',
-                  onPressed: () async {
-                    String saveStatus = await setProfile(
-                      _nameController.text,
-                      _dateController.text,
-                      _bloodGroupController.text,
-                      _medicalController.text,
-                    );
-                    if (context.mounted) showSnakeBar(saveStatus, context);
-                  },
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                CustomButton(
-                    text: 'Done',
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()),
-                          (route) => false);
-                    })
-              ],
+                child: CustomButton(
+              text: 'Save Profile',
+              onPressed: () async {
+                String saveStatus = await setProfile(
+                  _nameController.text,
+                  _dateController.text,
+                  _bloodGroupController.text,
+                  _medicalController.text,
+                );
+                if (context.mounted) showSnakeBar(saveStatus, context);
+              },
             )),
           ),
         ]),
