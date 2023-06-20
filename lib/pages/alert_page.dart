@@ -129,20 +129,24 @@ class _AlertPageState extends State<AlertPage> {
       );
     } else {
       return Center(
-        child: Column(
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isMenuVisible = !isMenuVisible;
-                    isVisible = !isVisible;
-                  });
-                },
-                child: const Text("Abort Alert"))
-          ],
-        ),
+        child: alertPressed(),
       );
     }
+  }
+
+  Column alertPressed() {
+    return Column(
+      children: [
+        ElevatedButton(
+            onPressed: () {
+              setState(() {
+                isMenuVisible = !isMenuVisible;
+                isVisible = !isVisible;
+              });
+            },
+            child: const Text("Abort Alert"))
+      ],
+    );
   }
 
   Container alertButton() {

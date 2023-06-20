@@ -10,31 +10,50 @@ import 'package:intl/intl.dart';
 
 class ServerAlerts {
   static Future sentAlert() async {
-    Position currentPosition = await LocationModule.determinePosition();
+    bool succeess = false;
+    while (!succeess) {
+      debugPrint("inside the loop");
+      try {
+        Position currentPosition = await LocationModule.determinePosition();
 
-    const storage = FlutterSecureStorage();
-    final uri = Uri.parse('https://alertme.onrender.com/api/v1/alert');
-    final headers = {'Content-Type': 'application/json'};
-    final phone = await storage.read(key: "phone");
-    final location =
-        jsonEncode([currentPosition.latitude, currentPosition.longitude]);
-    final time = DateFormat('hh:mm:ss').format(DateTime.now());
-    Map<String, dynamic> body = {
-      'phone': phone,
-      'location': location,
-      'time': time
-    };
-    debugPrint('$body');
-    String jsonBody = json.encode(body);
-    final encoding = Encoding.getByName('utf-8');
+        const storage = FlutterSecureStorage();
+        final uri = Uri.parse('https://alertme.onrender.com/api/v1/alert');
+        final headers = {'Content-Type': 'application/json'};
+        final phone = await storage.read(key: "phone");
+        final location =
+            jsonEncode([currentPosition.latitude, currentPosition.longitude]);
+        final time = DateFormat('hh:mm:ss').format(DateTime.now());
+        Map<String, dynamic> body = {
+          'phone': phone,
+          'location': location,
+          'time': time
+        };
+        debugPrint('$body');
+        String jsonBody = json.encode(body);
+        final encoding = Encoding.getByName('utf-8');
 
-    Response response = await post(
-      uri,
-      headers: headers,
-      body: jsonBody,
-      encoding: encoding,
-    );
-    if (response.statusCode == 201) {
-    } else {}
+        Response response = await post(
+          uri,
+          headers: headers,
+          body: jsonBody,
+          encoding: encoding,
+        );
+        debugPrint("Erros code: ${response.statusCode}");
+        if (response.statusCode == 201) {
+          succeess = true;
+        } else {
+          debugPrint("invalid status code");
+          await Future.delayed(const Duration(seconds: 30));
+        }
+      } catch (e) {
+        await Future.delayed(const Duration(seconds: 30));
+        debugPrint(e.toString());
+
+        if (e.toString() == 'Connection reset by peer') {
+        } else {
+          succeess = false;
+        }
+      }
+    }
   }
 }

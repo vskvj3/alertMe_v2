@@ -162,7 +162,7 @@ class _AlertDetailsState extends State<AlertDetails> {
                       ],
                     )),
                 const SizedBox(
-                  height: 20,
+                  height: 70,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
