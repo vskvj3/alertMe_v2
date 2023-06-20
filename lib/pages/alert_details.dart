@@ -4,7 +4,7 @@ import 'package:alert_me/utils/alert_functions.dart';
 import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AlertDetails extends StatefulWidget {
   final AlertData alertDetails;
@@ -40,10 +40,10 @@ class _AlertDetailsState extends State<AlertDetails> {
   }
 
   Future<void> _launchUrl(String url) async {
-    if (!await canLaunch(url)) {
+    if (!await canLaunchUrlString(url)) {
       throw Exception('Could not launch $url');
     }
-    await launch(url);
+    await launchUrlString(url);
   }
 
   @override
