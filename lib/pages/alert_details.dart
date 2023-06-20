@@ -88,6 +88,7 @@ class _AlertDetailsState extends State<AlertDetails> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: ListView(
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 Row(
                   children: [
@@ -96,7 +97,8 @@ class _AlertDetailsState extends State<AlertDetails> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           widget.alertDetails.name,
-                          style: const TextStyle(fontSize: 18),
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -107,10 +109,21 @@ class _AlertDetailsState extends State<AlertDetails> {
                   ],
                 ),
                 const SizedBox(height: 30.0),
-                Text('Blood Group: ${profileData.bloodGroup}'),
-                const SizedBox(height: 30.0),
-                const Text('Medical Info: '),
+                Row(
+                  children: [
+                    const Text(
+                      'Blood Group: ',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    Text(profileData.bloodGroup)
+                  ],
+                ),
                 const SizedBox(height: 10.0),
+                const Text(
+                  'Medical Info: ',
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 5.0),
                 Text(profileData.medicalDetails),
                 const SizedBox(height: 35.0),
                 ElevatedButton(
@@ -131,21 +144,51 @@ class _AlertDetailsState extends State<AlertDetails> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
                     fixedSize: const Size(10, 50),
                     textStyle: const TextStyle(fontSize: 20),
                   ),
                   child: const Text('View on map'),
                 ),
                 const SizedBox(height: 35),
-                Text(
-                  "   ${profileData.flagCount} people flagged false",
-                  style: const TextStyle(color: Colors.red),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Row(
+                      children: [
+                        Icon(Icons.fire_extinguisher),
+                        Text("fire"),
+                      ],
+                    )),
+                const SizedBox(
+                  height: 20,
                 ),
-                const SizedBox(height: 35),
-                Text(
-                  "   ${profileData.viewCount} people viewed this alert",
-                  style: const TextStyle(color: Colors.red),
-                )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "   ${profileData.flagCount} people flagged false",
+                      style: const TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.w600),
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.remove_red_eye,
+                          color: Colors.black54,
+                        ),
+                        Text(
+                          " ${profileData.viewCount}",
+                          style: const TextStyle(
+                              color: Colors.black54,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -164,12 +207,19 @@ class _AlertDetailsState extends State<AlertDetails> {
                     debugPrint("[pressed] contact");
                   },
                   style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(150, 5),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
                     textStyle: const TextStyle(fontSize: 20),
                     backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 20),
                   ),
-                  child: const Text("contact"),
+                  child: const Text(
+                    "contact",
+                    style: TextStyle(),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -180,15 +230,23 @@ class _AlertDetailsState extends State<AlertDetails> {
                       final responseData = json.decode(response.body);
                       profileData.flagCount = responseData['flag_count'];
                     } else {
-                      throw Exception("can't update flagcount");
+                      SnackBar snackBar = const SnackBar(
+                          content: Text("can't update flagcount"));
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     }
                     setState(() {
                       profileData;
                     });
                   },
                   style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(150, 5),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
                     textStyle: const TextStyle(fontSize: 20),
                     backgroundColor: Colors.redAccent,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 20),
                   ),

@@ -17,7 +17,6 @@ class AlertsNear extends StatefulWidget {
 class _AlertsNearState extends State<AlertsNear> {
   List<AlertData> alertDataList = [];
   final categories = AlertReceiver.fetchAllAlert();
-  var isLocationEnabledW;
 
   @override
   void initState() {
