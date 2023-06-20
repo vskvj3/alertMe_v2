@@ -1,5 +1,4 @@
 import 'dart:async';
-// import 'package:alert_me/utils/alert_sms.dart';
 import 'package:alert_me/utils/sent_all_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,7 +11,8 @@ class AlertPage extends StatefulWidget {
 }
 
 class _AlertPageState extends State<AlertPage> {
-  String screen = 'alert';
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  String screen = '';
   static const maxSeconds = 5;
   int seconds = maxSeconds;
   Timer? timer;
@@ -24,8 +24,8 @@ class _AlertPageState extends State<AlertPage> {
           seconds--;
         });
       } else {
-        // SnackBar snackBar = SnackBar(content: Text('Alert Send SuccessFully'));
         AlertSendModule.sentAlerts();
+        secureStorage.write(key: 'screen', value: 'status');
         setState(() {
           timer?.cancel();
 
@@ -37,6 +37,17 @@ class _AlertPageState extends State<AlertPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    secureStorage.read(key: 'screen').then((value) {
+      setState(() {
+        screen = value ?? 'alert';
+      });
+      debugPrint("inside init state: $screen");
+    });
+  }
+
+  @override
   void dispose() {
     super.dispose();
     timer?.cancel();
@@ -44,6 +55,7 @@ class _AlertPageState extends State<AlertPage> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("building screen: $screen");
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -55,8 +67,6 @@ class _AlertPageState extends State<AlertPage> {
   }
 
   Widget returnScreen() {
-    // const Storage = FlutterSecureStorage();
-    // screen = (await Storage.read(key: 'home_screen'))!;
     debugPrint("screen: $screen");
 
     if (screen == 'alert') {
@@ -66,7 +76,7 @@ class _AlertPageState extends State<AlertPage> {
     } else if (screen == 'status') {
       return alertStatus();
     } else {
-      return Center(child: Text('Error'));
+      return const SizedBox();
     }
   }
 
@@ -118,6 +128,7 @@ class _AlertPageState extends State<AlertPage> {
                 foregroundColor: MaterialStatePropertyAll(Colors.white),
               ),
               onPressed: () {
+                secureStorage.write(key: 'screen', value: 'alert');
                 setState(() {
                   timer?.cancel();
                   seconds = maxSeconds;
@@ -150,6 +161,7 @@ class _AlertPageState extends State<AlertPage> {
         ),
         ElevatedButton(
             onPressed: () {
+              secureStorage.write(key: 'screen', value: 'alert');
               setState(() {
                 screen = 'alert';
               });
