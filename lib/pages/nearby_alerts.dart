@@ -17,6 +17,7 @@ class AlertsNear extends StatefulWidget {
 class _AlertsNearState extends State<AlertsNear> {
   List<AlertData> alertDataList = [];
   final categories = AlertReceiver.fetchAllAlert();
+  var isLocationEnabledW;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _AlertsNearState extends State<AlertsNear> {
     init();
   }
 
-  Future<void> init() async {
+  Future<String> init() async {
     bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
     if (!isLocationEnabled) {
       if (context.mounted) {
@@ -56,6 +57,12 @@ class _AlertsNearState extends State<AlertsNear> {
     setState(() {
       alertDataList;
     });
+
+    if (isLocationEnabled) {
+      return "Location Enabled";
+    } else {
+      return "Location Disabled";
+    }
   }
 
   Future<String> findDistance(String remoteLocation) async {
@@ -79,16 +86,22 @@ class _AlertsNearState extends State<AlertsNear> {
       future: categories,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return SingleChildScrollView(
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: alertDataList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return buildItem(index);
-              },
-            ),
-          );
+          if (snapshot.hasData) {
+            return SingleChildScrollView(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: alertDataList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return buildItem(index);
+                },
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          } else {
+            return const Center(child: Text('No Alerts Found'));
+          }
         } else {
           return const Center(child: CircularProgressIndicator());
         }
