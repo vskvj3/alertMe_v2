@@ -12,7 +12,7 @@ client application of Emergency Alert System developed as a part of KTU Mini Pro
 - [ ] flag as false only once
 - [ ] Delete Profile
 - [ ] Log out button
-- [ ] abort alert
+- [X] abort alert
 - [ ] delete alerts after 3 hours
 - [ ] sort nearby alerts based on distance/time
 - [ ] show error if loading is not completed 
