@@ -16,6 +16,7 @@ class AlertsNear extends StatefulWidget {
 
 class _AlertsNearState extends State<AlertsNear> {
   List<AlertData> alertDataList = [];
+  List<AlertData> sortedAlertDataList = [];
   final categories = AlertReceiver.fetchAllAlert();
 
   @override
@@ -52,9 +53,12 @@ class _AlertsNearState extends State<AlertsNear> {
         );
       }
     }
+
+    
     alertDataList = await AlertReceiver.fetchAllAlert();
+    sortedAlertDataList= await sortAlertDataList(alertDataList);
     setState(() {
-      alertDataList;
+     sortedAlertDataList;
     });
 
     if (isLocationEnabled) {
@@ -62,6 +66,20 @@ class _AlertsNearState extends State<AlertsNear> {
     } else {
       return "Location Disabled";
     }
+  }
+
+  Future<List<AlertData>> sortAlertDataList(List<AlertData> AlertDataList)async{
+    final Position currentLocation = await LocationModule.determinePosition();
+    for(int i=0;i<alertDataList.length - 1;i++){
+      for(int j = 0; j<alertDataList.length-i-1;j++){
+        if(await findActualDistance(alertDataList[j].location,currentLocation.latitude,currentLocation.longitude) > await findActualDistance(alertDataList[j+1].location,currentLocation.latitude,currentLocation.longitude)){
+          AlertData temp = alertDataList[j+1];
+          alertDataList[j+1] = alertDataList[j];
+          alertDataList[j] = temp;
+        }
+      }
+    }
+    return alertDataList;
   }
 
   Future<String> findDistance(String remoteLocation) async {
@@ -75,6 +93,20 @@ class _AlertsNearState extends State<AlertsNear> {
         locations[1].toDouble(),
         currentLocation.latitude.toDouble(),
         currentLocation.longitude.toDouble());
+    debugPrint('distance: $distance');
+    return distance;
+  }
+
+  Future<double> findActualDistance(String remoteLocation,lat,long) async {
+
+    final List<dynamic> locations = json.decode(remoteLocation);
+    debugPrint("locations: ${locations[0].toDouble()}");
+    debugPrint("locations: ${locations[1]}");
+    double distance = LocationModule.calculateActualDistance(
+        locations[0].toDouble(),
+        locations[1].toDouble(),
+        lat.toDouble(),
+        long.toDouble());
     debugPrint('distance: $distance');
     return distance;
   }
