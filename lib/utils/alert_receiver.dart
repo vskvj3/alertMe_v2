@@ -10,10 +10,11 @@ class AlertData {
   int viewCount;
   String time;
   String location;
+  String? tag;
   int v;
 
   AlertData(this.id, this.name, this.phone, this.flagCount, this.viewCount,
-      this.time, this.location, this.v);
+      this.time, this.location, this.tag, this.v);
 }
 
 class ProfileData {
@@ -40,15 +41,15 @@ class AlertReceiver {
       final List<dynamic> responseData = jsonDecode(response.body);
       final List<AlertData> alertDataList = responseData.map((json) {
         return AlertData(
-          json['_id'],
-          json['name'],
-          json['phone'],
-          json['flag_count'],
-          json['view_count'],
-          json['time'],
-          json['location'],
-          json['__v'],
-        );
+            json['_id'],
+            json['name'],
+            json['phone'],
+            json['flag_count'],
+            json['view_count'],
+            json['time'],
+            json['location'],
+            json['alert_tag'],
+            json['__v']);
       }).toList();
       debugPrint('$alertDataList');
       return alertDataList;

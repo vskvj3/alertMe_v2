@@ -153,14 +153,13 @@ class _AlertDetailsState extends State<AlertDetails> {
                   child: const Text('View on map'),
                 ),
                 const SizedBox(height: 35),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Row(
-                      children: [
-                        Icon(Icons.fire_extinguisher),
-                        Text("fire"),
-                      ],
-                    )),
+                Wrap(
+                  children: [
+                    Row(
+                      children: [alertTag()],
+                    )
+                  ],
+                ),
                 const SizedBox(
                   height: 70,
                 ),
@@ -223,7 +222,6 @@ class _AlertDetailsState extends State<AlertDetails> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    profileData.flagCount = profileData.flagCount + 1;
                     final response = await AlertFunctions.updateCount(
                         widget.alertDetails.id);
                     if (response.statusCode == 200) {
@@ -258,5 +256,62 @@ class _AlertDetailsState extends State<AlertDetails> {
         ),
       ],
     );
+  }
+
+  Widget alertTag() {
+    var tag = widget.alertDetails.tag;
+    debugPrint("tag: $tag");
+    if (tag == "flame") {
+      return const Row(
+        children: [
+          Image(
+            image: AssetImage('assets/icons/flame.png'),
+            semanticLabel: "",
+            height: 30,
+            width: 30,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text("fire",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
+        ],
+      );
+    } else if (tag == "heartattack") {
+      return const Row(
+        children: [
+          Image(
+            image: AssetImage('assets/icons/heart-attack2.png'),
+            semanticLabel: "",
+            height: 30,
+            width: 30,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text("heart attack",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
+        ],
+      );
+    } else if (tag == "accident") {
+      return const Row(
+        children: [
+          Image(
+            image: AssetImage('assets/icons/accident.png'),
+            semanticLabel: "",
+            height: 30,
+            width: 30,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text("accident",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
+        ],
+      );
+    }
+    {
+      return SizedBox();
+    }
   }
 }
