@@ -53,7 +53,7 @@ class AlertReceiver {
       debugPrint('$alertDataList');
       return alertDataList;
     } else {
-      throw Exception("Failed to fetch alerts");
+      throw Exception("Failed to fetch alerts: ${response.statusCode}");
     }
   }
 

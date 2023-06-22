@@ -97,7 +97,19 @@ class _AlertsNearState extends State<AlertsNear> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Image(
+                  image: AssetImage('assets/icons/net_error.png'),
+                  semanticLabel: "",
+                  height: 50,
+                  width: 50,
+                ),
+                Text(snapshot.error.toString()),
+              ],
+            ));
           } else {
             return const Center(child: Text('No Alerts Found'));
           }
