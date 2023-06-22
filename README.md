@@ -7,7 +7,7 @@ client application of Emergency Alert System developed as a part of KTU Mini Pro
 
 ## TODO before release 1
 - [X] name is sms
-- [ ] alert type icons using choice chips
+- [X] alert type icons using choice chips
 - [ ] loading animations in nearby alerts
 - [ ] flag as false only once
 - [ ] Delete Profile
