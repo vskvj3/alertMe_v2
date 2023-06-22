@@ -159,6 +159,13 @@ class _AlertPageState extends State<AlertPage> {
     http.put(uri);
   }
 
+  abortAlert() async {
+    var id = await secureStorage.read(key: 'myalert_id');
+    final uri =
+        Uri.parse('https://alertme.onrender.com/api/v1/alert/abort/$id');
+    http.put(uri);
+  }
+
   Widget alertStatus() {
     return Column(
       children: [
@@ -217,6 +224,11 @@ class _AlertPageState extends State<AlertPage> {
         ),
         ElevatedButton(
             onPressed: () {
+              try {
+                abortAlert();
+              } catch (err) {
+                debugPrint(err.toString());
+              }
               secureStorage.write(key: 'screen', value: 'alert');
               setState(() {
                 screen = 'alert';

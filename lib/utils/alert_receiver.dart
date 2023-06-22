@@ -12,9 +12,10 @@ class AlertData {
   String location;
   String? tag;
   int v;
+  String? status;
 
   AlertData(this.id, this.name, this.phone, this.flagCount, this.viewCount,
-      this.time, this.location, this.tag, this.v);
+      this.time, this.location, this.tag, this.v, this.status);
 }
 
 class ProfileData {
@@ -49,7 +50,8 @@ class AlertReceiver {
             json['time'],
             json['location'],
             json['alert_tag'],
-            json['__v']);
+            json['__v'],
+            json['status']);
       }).toList();
       debugPrint('$alertDataList');
       return alertDataList;

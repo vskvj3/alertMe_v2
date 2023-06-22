@@ -74,188 +74,197 @@ class _AlertDetailsState extends State<AlertDetails> {
     );
   }
 
-  Column alertDetailsContent(ProfileData profileData) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(left: 10.0, top: 30, right: 10.0),
-          child: Container(
-            padding: const EdgeInsets.only(left: 10.0, top: 25.0, right: 10),
-            height: 430.0,
-            width: 390.0,
-            decoration: BoxDecoration(
-              color: const Color(0xFFF9D1D1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          widget.alertDetails.name,
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+  Widget alertDetailsContent(ProfileData profileData) {
+    debugPrint("alert status: ${widget.alertDetails.status}");
+    if (widget.alertDetails.status == "aborted") {
+      return const Center(
+          child: Text(
+        "Alert Resolved",
+        style: TextStyle(fontSize: 40),
+      ));
+    } else {
+      return Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 10.0, top: 30, right: 10.0),
+            child: Container(
+              padding: const EdgeInsets.only(left: 10.0, top: 25.0, right: 10),
+              height: 430.0,
+              width: 390.0,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF9D1D1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            widget.alertDetails.name,
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(timeDiff()),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 30.0),
-                Row(
-                  children: [
-                    const Text(
-                      'Blood Group: ',
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    Text(profileData.bloodGroup)
-                  ],
-                ),
-                const SizedBox(height: 10.0),
-                const Text(
-                  'Medical Info: ',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(height: 5.0),
-                Text(profileData.medicalDetails),
-                const SizedBox(height: 35.0),
-                ElevatedButton(
-                  onPressed: () async {
-                    final List<dynamic> locations =
-                        json.decode(widget.alertDetails.location);
-
-                    String encodedLatitude =
-                        Uri.encodeComponent(locations[0].toString());
-                    String encodedLongitude =
-                        Uri.encodeComponent(locations[1].toString());
-                    String encodedComma = Uri.encodeComponent(",");
-                    String mapUrl =
-                        "https://maps.google.com/maps?q=$encodedLatitude$encodedComma$encodedLongitude";
-                    await _launchUrl(mapUrl);
-
-                    debugPrint("[Pressed] view on map");
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0)),
-                    fixedSize: const Size(10, 50),
-                    textStyle: const TextStyle(fontSize: 20),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(timeDiff()),
+                      )
+                    ],
                   ),
-                  child: const Text('View on map'),
-                ),
-                const SizedBox(height: 35),
-                Wrap(
-                  children: [
-                    Row(
-                      children: [alertTag()],
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 70,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "   ${profileData.flagCount} people flagged false",
-                      style: const TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.w600),
+                  const SizedBox(height: 30.0),
+                  Row(
+                    children: [
+                      const Text(
+                        'Blood Group: ',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      Text(profileData.bloodGroup)
+                    ],
+                  ),
+                  const SizedBox(height: 10.0),
+                  const Text(
+                    'Medical Info: ',
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 5.0),
+                  Text(profileData.medicalDetails),
+                  const SizedBox(height: 35.0),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final List<dynamic> locations =
+                          json.decode(widget.alertDetails.location);
+
+                      String encodedLatitude =
+                          Uri.encodeComponent(locations[0].toString());
+                      String encodedLongitude =
+                          Uri.encodeComponent(locations[1].toString());
+                      String encodedComma = Uri.encodeComponent(",");
+                      String mapUrl =
+                          "https://maps.google.com/maps?q=$encodedLatitude$encodedComma$encodedLongitude";
+                      await _launchUrl(mapUrl);
+
+                      debugPrint("[Pressed] view on map");
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      fixedSize: const Size(10, 50),
+                      textStyle: const TextStyle(fontSize: 20),
                     ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.remove_red_eye,
-                          color: Colors.black54,
-                        ),
-                        Text(
-                          " ${profileData.viewCount}",
-                          style: const TextStyle(
-                              color: Colors.black54,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                    child: const Text('View on map'),
+                  ),
+                  const SizedBox(height: 35),
+                  Wrap(
+                    children: [
+                      Row(
+                        children: [alertTag()],
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 70,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "   ${profileData.flagCount} people flagged false",
+                        style: const TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.w600),
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.remove_red_eye,
+                            color: Colors.black54,
+                          ),
+                          Text(
+                            " ${profileData.viewCount}",
+                            style: const TextStyle(
+                                color: Colors.black54,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 30),
-        Center(
-          child: SizedBox(
-            width: 390,
-            child: ButtonBar(
-              alignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    debugPrint(profileData.phone);
-                    _launchUrl('tel://${profileData.phone}');
-                    debugPrint("[pressed] contact");
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(150, 5),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0)),
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 20),
+          const SizedBox(height: 30),
+          Center(
+            child: SizedBox(
+              width: 390,
+              child: ButtonBar(
+                alignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      debugPrint(profileData.phone);
+                      _launchUrl('tel://${profileData.phone}');
+                      debugPrint("[pressed] contact");
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(150, 5),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      textStyle: const TextStyle(fontSize: 20),
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 20),
+                    ),
+                    child: const Text(
+                      "contact",
+                      style: TextStyle(),
+                    ),
                   ),
-                  child: const Text(
-                    "contact",
-                    style: TextStyle(),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    final response = await AlertFunctions.updateCount(
-                        widget.alertDetails.id);
-                    if (response.statusCode == 200) {
-                      final responseData = json.decode(response.body);
-                      profileData.flagCount = responseData['flag_count'];
-                    } else {
-                      SnackBar snackBar = const SnackBar(
-                          content: Text("can't update flagcount"));
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  ElevatedButton(
+                    onPressed: () async {
+                      final response = await AlertFunctions.updateCount(
+                          widget.alertDetails.id);
+                      if (response.statusCode == 200) {
+                        final responseData = json.decode(response.body);
+                        profileData.flagCount = responseData['flag_count'];
+                      } else {
+                        SnackBar snackBar = const SnackBar(
+                            content: Text("can't update flagcount"));
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       }
-                    }
-                    setState(() {
-                      profileData;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(150, 5),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0)),
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.redAccent,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 20),
+                      setState(() {
+                        profileData;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(150, 5),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      textStyle: const TextStyle(fontSize: 20),
+                      backgroundColor: Colors.redAccent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 20),
+                    ),
+                    child: const Text("flag as false"),
                   ),
-                  child: const Text("flag as false"),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    }
   }
 
   Widget alertTag() {

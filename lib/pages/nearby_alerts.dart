@@ -54,11 +54,10 @@ class _AlertsNearState extends State<AlertsNear> {
       }
     }
 
-    
     alertDataList = await AlertReceiver.fetchAllAlert();
-    sortedAlertDataList= await sortAlertDataList(alertDataList);
+    sortedAlertDataList = await sortAlertDataList(alertDataList);
     setState(() {
-     sortedAlertDataList;
+      sortedAlertDataList;
     });
 
     if (isLocationEnabled) {
@@ -68,13 +67,17 @@ class _AlertsNearState extends State<AlertsNear> {
     }
   }
 
-  Future<List<AlertData>> sortAlertDataList(List<AlertData> AlertDataList)async{
+  Future<List<AlertData>> sortAlertDataList(
+      List<AlertData> AlertDataList) async {
     final Position currentLocation = await LocationModule.determinePosition();
-    for(int i=0;i<alertDataList.length - 1;i++){
-      for(int j = 0; j<alertDataList.length-i-1;j++){
-        if(await findActualDistance(alertDataList[j].location,currentLocation.latitude,currentLocation.longitude) > await findActualDistance(alertDataList[j+1].location,currentLocation.latitude,currentLocation.longitude)){
-          AlertData temp = alertDataList[j+1];
-          alertDataList[j+1] = alertDataList[j];
+    for (int i = 0; i < alertDataList.length - 1; i++) {
+      for (int j = 0; j < alertDataList.length - i - 1; j++) {
+        if (await findActualDistance(alertDataList[j].location,
+                currentLocation.latitude, currentLocation.longitude) >
+            await findActualDistance(alertDataList[j + 1].location,
+                currentLocation.latitude, currentLocation.longitude)) {
+          AlertData temp = alertDataList[j + 1];
+          alertDataList[j + 1] = alertDataList[j];
           alertDataList[j] = temp;
         }
       }
@@ -97,8 +100,7 @@ class _AlertsNearState extends State<AlertsNear> {
     return distance;
   }
 
-  Future<double> findActualDistance(String remoteLocation,lat,long) async {
-
+  Future<double> findActualDistance(String remoteLocation, lat, long) async {
     final List<dynamic> locations = json.decode(remoteLocation);
     debugPrint("locations: ${locations[0].toDouble()}");
     debugPrint("locations: ${locations[1]}");
@@ -158,6 +160,34 @@ class _AlertsNearState extends State<AlertsNear> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           final distance = snapshot.data as String;
+          if (alertDataList[index].status == "aborted") {
+            return Stack(children: [
+              AlertListField(
+                distance: "-----",
+                nearFar: "-----",
+                name: "-----",
+                alertDetails: alertDataList[index],
+              ),
+              const Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Center(
+                        child: Text(
+                          "Alert Resolved",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                              fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  )),
+            ]);
+          }
           return AlertListField(
             distance: distance,
             nearFar: "flagged: ${alertDataList[index].flagCount}",
