@@ -38,7 +38,10 @@ class ServerAlerts {
           body: jsonBody,
           encoding: encoding,
         );
+        Map<String, dynamic> mapresponse = jsonDecode(response.body);
         debugPrint("Erros code: ${response.statusCode}");
+        debugPrint("response id: ${mapresponse["_id"]}");
+        storage.write(key: 'myalert_id', value: mapresponse["_id"]);
         if (response.statusCode == 201) {
           succeess = true;
           return true;

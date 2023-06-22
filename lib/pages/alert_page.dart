@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:alert_me/utils/sent_all_alerts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class AlertPage extends StatefulWidget {
   const AlertPage({super.key});
@@ -11,8 +11,10 @@ class AlertPage extends StatefulWidget {
   State<AlertPage> createState() => _AlertPageState();
 }
 
+String _value = "";
+
 class _AlertPageState extends State<AlertPage> {
-  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   String screen = '';
   static const maxSeconds = 5;
   int seconds = maxSeconds;
@@ -149,28 +151,76 @@ class _AlertPageState extends State<AlertPage> {
     );
   }
 
+  updateAlertTag(tag) async {
+    var id = await secureStorage.read(key: 'myalert_id');
+    debugPrint("alerttag for $id changing to $tag");
+    final uri = Uri.parse(
+        'https://alertme.onrender.com/api/v1/alert/updatetag/?_id=$id&tag=$tag');
+    http.put(uri);
+  }
+
   Widget alertStatus() {
     return Column(
       children: [
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     IconButton.filled(
-        //         iconSize: 60,
-        //         onPressed: () {},
-        //         icon: FaIcon(FontAwesomeIcons.fireFlameCurved)),
-        //     Padding(
-        //       padding: EdgeInsets.all(90),
-        //     ),
-        //     IconButton.filled(
-        //         onPressed: () {}, icon: FaIcon(FontAwesomeIcons.carSide)),
-        //   ],
-        // ),
+        Wrap(
+          spacing: 5,
+          children: [
+            ChoiceChip(
+              label: const Image(
+                image: AssetImage('assets/icons/flame.png'),
+                semanticLabel: "",
+                height: 50,
+                width: 50,
+              ),
+              selected: _value == "flame",
+              onSelected: (selected) {
+                updateAlertTag(_value);
+                debugPrint("seleted: $selected");
+                setState(() {
+                  _value = "flame";
+                });
+              },
+            ),
+            ChoiceChip(
+              label: const Image(
+                image: AssetImage('assets/icons/accident.png'),
+                semanticLabel: "",
+                height: 50,
+                width: 50,
+              ),
+              selected: _value == "accident",
+              onSelected: (selected) {
+                updateAlertTag(_value);
+                debugPrint("seleted: $selected");
+                setState(() {
+                  _value = "accident";
+                });
+              },
+            ),
+            ChoiceChip(
+              label: const Image(
+                image: AssetImage('assets/icons/heart-attack2.png'),
+                semanticLabel: "",
+                height: 50,
+                width: 50,
+              ),
+              selected: _value == "heartattack",
+              onSelected: (selected) {
+                updateAlertTag(_value);
+                debugPrint("seleted: $selected");
+                setState(() {
+                  _value = "heartattack";
+                });
+              },
+            )
+          ],
+        ),
         ElevatedButton(
             onPressed: () {
               secureStorage.write(key: 'screen', value: 'alert');
               setState(() {
                 screen = 'alert';
+                _value = "";
               });
             },
             child: const Text("Abort Alert"))
