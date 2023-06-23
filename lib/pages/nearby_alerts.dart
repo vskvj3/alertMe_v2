@@ -120,16 +120,21 @@ class _AlertsNearState extends State<AlertsNear> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            return SingleChildScrollView(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: alertDataList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return buildItem(index);
-                },
-              ),
-            );
+            debugPrint("alertDatalist lengt: ${alertDataList.length}");
+            if (alertDataList.isEmpty) {
+              return const Center(child: Text("No Alerts Found"));
+            } else {
+              return SingleChildScrollView(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: alertDataList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return buildItem(index);
+                  },
+                ),
+              );
+            }
           } else if (snapshot.hasError) {
             return Center(
                 child: Column(

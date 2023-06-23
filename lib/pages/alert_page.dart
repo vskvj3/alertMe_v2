@@ -181,11 +181,11 @@ class _AlertPageState extends State<AlertPage> {
               ),
               selected: _value == "flame",
               onSelected: (selected) {
-                updateAlertTag(_value);
                 debugPrint("seleted: $selected");
                 setState(() {
                   _value = "flame";
                 });
+                updateAlertTag(_value);
               },
             ),
             ChoiceChip(
@@ -197,11 +197,11 @@ class _AlertPageState extends State<AlertPage> {
               ),
               selected: _value == "accident",
               onSelected: (selected) {
-                updateAlertTag(_value);
                 debugPrint("seleted: $selected");
                 setState(() {
                   _value = "accident";
                 });
+                updateAlertTag(_value);
               },
             ),
             ChoiceChip(
@@ -213,11 +213,11 @@ class _AlertPageState extends State<AlertPage> {
               ),
               selected: _value == "heartattack",
               onSelected: (selected) {
-                updateAlertTag(_value);
                 debugPrint("seleted: $selected");
                 setState(() {
                   _value = "heartattack";
                 });
+                updateAlertTag(_value);
               },
             )
           ],
