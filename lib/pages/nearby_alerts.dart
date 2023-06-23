@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:alert_me/utils/location_finder.dart';
+import 'package:alert_me/utils/time_difference.dart';
 import 'package:alert_me/widgets/alert_list_field.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 
 class AlertsNear extends StatefulWidget {
   const AlertsNear({Key? key}) : super(key: key);
@@ -160,6 +162,7 @@ class _AlertsNearState extends State<AlertsNear> {
   }
 
   FutureBuilder<String> buildItem(int index) {
+    String currentTimeString = DateFormat('hh:mm:ss').format(DateTime.now());
     return FutureBuilder(
       future: findDistance(alertDataList[index].location),
       builder: (context, snapshot) {
@@ -195,7 +198,9 @@ class _AlertsNearState extends State<AlertsNear> {
           }
           return AlertListField(
             distance: distance,
-            nearFar: "flagged: ${alertDataList[index].flagCount}",
+            // nearFar: "flagged: ${alertDataList[index].flagCount}",
+            nearFar:
+                timeDifference(currentTimeString, alertDataList[index].time),
             name: alertDataList[index].name,
             alertDetails: alertDataList[index],
           );
