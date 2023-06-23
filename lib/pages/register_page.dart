@@ -56,7 +56,8 @@ class _LoginRegisterState extends State<LoginRegister> {
   Column otpScreen(BuildContext context) {
     return Column(
       children: [
-        CustomTextField(labelText: 'Enter OTP', controller: _otpController),
+        // CustomTextField(labelText: 'Enter OTP', controller: _otpController),
+        OTPTextField(otpController: _otpController, formKey: _formKey),
         Visibility(
           visible: false,
           child: Row(children: [
@@ -75,31 +76,38 @@ class _LoginRegisterState extends State<LoginRegister> {
         ElevatedButton(
           onPressed: !_isVerifyPressed
               ? () async {
-                  setState(() {
-                    _isVerifyPressed = true;
-                  });
-                  try {
-                    FirebaseAuth.instance
-                        .signInWithCredential(PhoneAuthProvider.credential(
-                            verificationId: _verificationCode,
-                            smsCode: _otpController.text))
-                        .then((value) async {
-                      if (value.user != null) {
-                        var response = registerUser(
-                            value.user!.phoneNumber, value.user!.uid);
-                        debugPrint("response: $response");
-
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const EmergencyProfilePage()),
-                            (route) => false);
-                      }
+                  if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      _isVerifyPressed = true;
                     });
-                  } catch (e) {
-                    FocusScope.of(context).unfocus();
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    try {
+                      FirebaseAuth.instance
+                          .signInWithCredential(PhoneAuthProvider.credential(
+                              verificationId: _verificationCode,
+                              smsCode: _otpController.text))
+                          .then((value) async {
+                        if (value.user != null) {
+                          var response = registerUser(
+                              value.user!.phoneNumber, value.user!.uid);
+                          debugPrint("response: $response");
+
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EmergencyProfilePage()),
+                              (route) => false);
+                        }
+                      }).catchError((error) {
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        setState(() {
+                          _isVerifyPressed = !_isVerifyPressed;
+                        });
+                      });
+                    } catch (e) {
+                      FocusScope.of(context).unfocus();
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   }
                 }
               : null,
@@ -123,7 +131,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                     setState(() {
                       _isSendOTPPressed = true;
                     });
-                    verifyOTP();
+                    sendAndCheckOTP();
                   }
                 }
               : null,
@@ -149,41 +157,48 @@ class _LoginRegisterState extends State<LoginRegister> {
     }
   }
 
-  void verifyOTP() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: "+91 ${_phoneNumberController.text}",
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        try {
-          await FirebaseAuth.instance
-              .signInWithCredential(credential)
-              .then((value) async {
-            if (value.user != null) {
-              debugPrint('creadential: $credential');
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                  (route) => false);
-            }
-          });
-        } catch (e) {
+  void sendAndCheckOTP() async {
+    try {
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: "+91 ${_phoneNumberController.text}",
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          try {
+            await FirebaseAuth.instance
+                .signInWithCredential(credential)
+                .then((value) async {
+              if (value.user != null) {
+                debugPrint('creadential: $credential');
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    (route) => false);
+              }
+            });
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          debugPrint(e.message);
+          const snackBar = SnackBar(
+            content: Text('Cannot send otp, check number'),
+          );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        debugPrint(e.message);
-        const snackBar = SnackBar(
-          content: Text('Cannot send otp, check number'),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        setState(() {
-          _otpscreenvisibility = true;
-          _verificationCode = verificationId;
-        });
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+          setState(() {
+            _isSendOTPPressed = !_isSendOTPPressed;
+          });
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          setState(() {
+            _otpscreenvisibility = true;
+            _verificationCode = verificationId;
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    } catch (e) {
+      debugPrint("Exception: ${e.toString()}");
+    }
   }
 }
 
@@ -201,6 +216,7 @@ class PhoneTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: 10,
       decoration: const InputDecoration(
         prefix: Text("+91 "),
         border: OutlineInputBorder(
@@ -224,6 +240,50 @@ class PhoneTextField extends StatelessWidget {
         const pattern = r'[0-9]{10}';
         final regExp = RegExp(pattern);
         if (!regExp.hasMatch(value!)) return 'Enter Valid Phone Number';
+        return null;
+      },
+      onFieldSubmitted: (value) => _formKey.currentState?.validate(),
+    );
+  }
+}
+
+class OTPTextField extends StatelessWidget {
+  const OTPTextField({
+    super.key,
+    required TextEditingController otpController,
+    required GlobalKey<FormState> formKey,
+  })  : _otpController = otpController,
+        _formKey = formKey;
+
+  final TextEditingController _otpController;
+  final GlobalKey<FormState> _formKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      maxLength: 6,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Colors.amber, width: 0, style: BorderStyle.none),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        contentPadding: EdgeInsets.only(left: 20),
+        filled: true,
+        fillColor: Color(0xFFF9D1D1),
+        labelText: "Enter otp",
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        labelStyle: TextStyle(
+          fontSize: 13.0,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      controller: _otpController,
+      keyboardType: TextInputType.number,
+      validator: (value) {
+        const pattern = r'[0-9]{6}';
+        final regExp = RegExp(pattern);
+        if (!regExp.hasMatch(value!)) return 'Invalid otp';
         return null;
       },
       onFieldSubmitted: (value) => _formKey.currentState?.validate(),
