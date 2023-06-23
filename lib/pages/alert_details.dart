@@ -231,13 +231,14 @@ class _AlertDetailsState extends State<AlertDetails> {
                   ElevatedButton(
                     onPressed: () async {
                       final response = await AlertFunctions.updateCount(
-                          widget.alertDetails.id);
+                          widget.alertDetails.id, widget.alertDetails.phone);
                       if (response.statusCode == 200) {
                         final responseData = json.decode(response.body);
                         profileData.flagCount = responseData['flag_count'];
                       } else {
                         SnackBar snackBar = const SnackBar(
-                            content: Text("can't update flagcount"));
+                            content:
+                                Text("You have already flagged the alert"));
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }

@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 class ServerAlerts {
   static Future sentAlert() async {
+    debugPrint("inside send server alerts");
     bool succeess = false;
     while (!succeess) {
       debugPrint("inside the loop");

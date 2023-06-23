@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:alert_me/utils/sent_server_alerts.dart';
 import 'package:alert_me/utils/settings_storage.dart';
 import 'package:alert_me/utils/alert_sms.dart';
+import 'package:flutter/material.dart';
 
 class AlertSendModule {
   static Future<dynamic> sentAlerts() async {
+    debugPrint("send all alerts called");
     var success;
     final List temp =
         jsonDecode(await SettingStorage.retrieveSettings() ?? "[]");
