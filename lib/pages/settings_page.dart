@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:alert_me/utils/alert_sms.dart';
 import 'package:alert_me/utils/emergency_notif.dart';
+import 'package:alert_me/utils/log_out.dart';
 import 'package:alert_me/utils/settings_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -164,6 +165,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
 
               const SizedBox(height: 20),
+
+              ElevatedButton(onPressed: () async {await logOut(context);}, child: const Text("Log Out"))
             ],
           ),
         ),
