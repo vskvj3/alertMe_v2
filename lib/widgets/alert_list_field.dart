@@ -12,12 +12,14 @@ class AlertListField extends StatelessWidget {
   final String distance;
   final String nearFar;
   final AlertData alertDetails;
+  final bool aborted;
   const AlertListField(
       {super.key,
       required this.name,
       required this.distance,
       required this.nearFar,
-      required this.alertDetails});
+      required this.alertDetails,
+      required this.aborted});
 
   @override
   Widget build(BuildContext context) {
@@ -41,39 +43,6 @@ class AlertListField extends StatelessWidget {
         height: 65,
         child: Row(
           children: [
-            // Container(
-            //   padding:EdgeInsets.only(left:20, top:10.0, right:30),
-            //   child: Column(
-            //     children: [
-            //       Text(name,
-            //       style:TextStyle(
-            //         fontSize: 16.0
-            //       )),
-            //       SizedBox(height:10),
-            //       Text(distance,
-
-            //       style:TextStyle(
-            //         backgroundColor: Colors.green,
-            //         fontSize: 13.0
-            //       ),),
-            //     ],
-            //   ),
-            // ),
-            // // SizedBox(width:210.0),
-            // // Text(nearFar,
-            // //       style:TextStyle(
-            // //         fontSize: 15.0,
-            // //         color: Colors.red
-            // //       )),
-            // Align(
-            //   alignment: Alignment.,
-            //   child:Text(nearFar,
-            //       style:TextStyle(
-            //         fontSize: 15.0,
-            //         color: Colors.red
-            //       )),
-            // )
-
             Expanded(
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -84,8 +53,9 @@ class AlertListField extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: const TextStyle(
-                            fontSize: 15.0, color: Colors.black),
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            color: (aborted ? Colors.grey : Colors.black)),
                       ),
                       const SizedBox(height: 10),
                       Text(
@@ -103,7 +73,11 @@ class AlertListField extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 20.0),
                 child: Text(nearFar,
-                    style: const TextStyle(fontSize: 13.0, color: Colors.red)),
+                    style: TextStyle(
+                        fontSize: 13.0,
+                        color: (aborted
+                            ? const Color.fromARGB(255, 255, 117, 117)
+                            : Colors.red))),
               ),
             )
           ],

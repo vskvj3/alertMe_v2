@@ -194,9 +194,10 @@ class _AlertsNearState extends State<AlertsNear> {
             return Stack(children: [
               AlertListField(
                 distance: "-----",
-                nearFar: "-----",
-                name: "-----",
+                nearFar: timeDifference(currentTimeString, alertData.time),
+                name: alertData.name,
                 alertDetails: alertData,
+                aborted: true,
               ),
               const Align(
                   alignment: Alignment.center,
@@ -224,6 +225,7 @@ class _AlertsNearState extends State<AlertsNear> {
             nearFar: timeDifference(currentTimeString, alertData.time),
             name: alertData.name,
             alertDetails: alertData,
+            aborted: false,
           );
         } else {
           return const Column(
