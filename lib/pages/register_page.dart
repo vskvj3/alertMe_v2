@@ -86,16 +86,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                               smsCode: _otpController.text))
                           .then((value) async {
                         if (value.user != null) {
-                          var response = registerUser(
+                          var response = await registerUser(
                               value.user!.phoneNumber, value.user!.uid);
                           debugPrint("response: $response");
 
-                          Navigator.pushAndRemoveUntil(
+                          if(context.mounted){Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                       const EmergencyProfilePage()),
                               (route) => false);
+                          }
                         }
                       }).catchError((error) {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
