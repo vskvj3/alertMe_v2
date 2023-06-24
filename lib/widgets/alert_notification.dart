@@ -21,16 +21,14 @@ class AlertNotif {
   }
 
   notificationDetails() {
-    return NotificationDetails(
-      android: AndroidNotificationDetails(
-        channelName,
-        channelName,
-        subText: 'Emergency Near You',
-        importance: Importance.max,
-        icon: 'mipmap/ic_launcher',
-        autoCancel: false,
-        visibility: NotificationVisibility.public,
-      ),
+    return const NotificationDetails(
+      android: AndroidNotificationDetails('3', '4',
+          subText: 'Emergency Near You',
+          importance: Importance.max,
+          icon: 'mipmap/ic_launcher',
+          autoCancel: false,
+          visibility: NotificationVisibility.public,
+          fullScreenIntent: true),
     );
   }
 

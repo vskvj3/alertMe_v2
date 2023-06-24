@@ -69,9 +69,9 @@ class _SettingsPageState extends State<SettingsPage> {
                         jsonEncode(_checkboxValues));
                     if (value!) {
                       AppNotif().showNotification(
-                          title: "Sample", body: "Notification Enabled");
+                          title: "Send Alert", body: "Press to send alert");
                     } else {
-                      AppNotif().appNotif.cancelAll();
+                      AppNotif().appNotif.cancel(111);
                     }
                   },
                 ),
@@ -166,7 +166,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
               const SizedBox(height: 20),
 
-              ElevatedButton(onPressed: () async {await logOut(context);}, child: const Text("Log Out"))
+              ElevatedButton(
+                  onPressed: () async {
+                    await logOut(context);
+                  },
+                  child: const Text("Log Out"))
             ],
           ),
         ),

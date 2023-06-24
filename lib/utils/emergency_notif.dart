@@ -16,6 +16,9 @@ class AppNotif {
   notificationDetails() {
     return const NotificationDetails(
       android: AndroidNotificationDetails('1', '2',
+          playSound: false,
+          enableVibration: false,
+          showWhen: false,
           importance: Importance.max,
           icon: 'mipmap/ic_launcher',
           ongoing: true,
@@ -25,7 +28,7 @@ class AppNotif {
   }
 
   Future showNotification(
-      {int id = 0, String? title, String? body, String? payload}) async {
+      {int id = 111, String? title, String? body, String? payload}) async {
     return appNotif.show(id, title, body, await notificationDetails());
   }
 }
