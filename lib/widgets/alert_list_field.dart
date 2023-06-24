@@ -1,6 +1,9 @@
 //widget for the recieved alert fields in the 'Alerts recievced' section
 
+import 'dart:convert';
+
 import 'package:alert_me/pages/alert_details.dart';
+import 'package:alert_me/utils/alert_functions.dart';
 import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:flutter/material.dart';
 
@@ -14,19 +17,28 @@ class AlertListField extends StatelessWidget {
       required this.name,
       required this.distance,
       required this.nearFar,
-      required this.alertDetails
-      });
+      required this.alertDetails});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>  AlertDetails(alertDetails: alertDetails,),
-          ),
-        )
+      onPressed: () async {
+        final response = await AlertFunctions.updateView(
+            alertDetails.id, alertDetails.phone);
+        if (response.statusCode == 200) {
+          debugPrint("view updated");
+        }
+
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AlertDetails(
+                alertDetails: alertDetails,
+              ),
+            ),
+          );
+        }
       },
       child: Container(
         decoration: BoxDecoration(
