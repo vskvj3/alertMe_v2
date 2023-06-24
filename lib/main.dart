@@ -17,7 +17,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint('Message data id: ${message.data['id']}');
   String dist = await findDistance(message.data['location']);
   AlertNotif(message.data['name'])
-      .showNotification(title: message.data['name'], body: dist);
+      .showNotification(title: "New Alert", body: dist);
   if (message.notification != null) {
     debugPrint(
         'Message also contained a notification: ${message.notification}');
@@ -37,7 +37,7 @@ void main() async {
     debugPrint(message.data['id']);
     String? dist = await findDistance(message.data['location']);
     AlertNotif(message.data['name'])
-        .showNotification(title: message.data['name'], body: dist);
+        .showNotification(title: "New Alert", body: dist);
     if (message.notification != null) {
       debugPrint(
           'Message also contained a notification: ${message.notification}');
