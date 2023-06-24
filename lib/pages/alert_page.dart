@@ -222,7 +222,14 @@ class _AlertPageState extends State<AlertPage> {
             )
           ],
         ),
+        const SizedBox(
+          height: 35,
+        ),
         ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(150, 70),
+              backgroundColor: Colors.red, // Set the button color
+            ),
             onPressed: () {
               try {
                 abortAlert();
@@ -235,7 +242,13 @@ class _AlertPageState extends State<AlertPage> {
                 _value = "";
               });
             },
-            child: const Text("Abort Alert"))
+            child: const Text(
+              "Abort Alert",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ))
       ],
     );
   }
