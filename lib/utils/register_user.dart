@@ -15,6 +15,7 @@ registerUser(String? phone, String? loginKey) async {
       'login_key': loginKey,
       'fcmtoken': fcmtoken
     };
+    debugPrint("body in registerUser: $body");
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
@@ -29,6 +30,7 @@ registerUser(String? phone, String? loginKey) async {
     String responseBody = response.body;
 
     Map<String, dynamic> mapresponse = jsonDecode(responseBody);
+    debugPrint("mapresponse in registerUser: $mapresponse");
     await storage.write(key: "phone", value: mapresponse["phone"]);
     await storage.write(key: "login_key", value: mapresponse["login_key"]);
     await storage.write(key: "token", value: mapresponse["token"]);

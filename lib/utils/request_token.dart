@@ -21,6 +21,7 @@ Future<void> requestPermissions() async {
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
     // User has granted permission, retrieve the device token
     String? deviceToken = await messaging.getToken();
+    debugPrint("fcmToken: $deviceToken");
     debugPrint('Device Token: $deviceToken');
     await storage.write(key: "fcmtoken", value: deviceToken);
   } else {

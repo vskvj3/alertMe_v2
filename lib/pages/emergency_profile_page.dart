@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:alert_me/pages/register_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:alert_me/widgets/text_field.dart';
@@ -118,6 +117,8 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
   final TextEditingController _bloodGroupController = TextEditingController();
   final TextEditingController _medicalController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final storage = FlutterSecureStorage();
+  late String phone;
   final savedProfile = const SnackBar(
     content: Text('Profile saved success'),
   );
@@ -126,6 +127,16 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
   void initState() {
     super.initState();
     futureProfile = fetchProfile();
+    init();
+  }
+
+  Future<void> init() async {
+    phone = await storage.read(key: "phone") ??
+        ''; // Assign the value from storage to phone
+    debugPrint("phone: $phone");
+    var phoneno = await storage.read(key: "loggedin");
+    debugPrint("phone in fss: $phoneno");
+    _phoneController.text = phone; // Set the value to _phoneController
   }
 
   @override
@@ -153,7 +164,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
                 _dateController.text = snapshot.data!.dateOfBirth;
                 _bloodGroupController.text = snapshot.data!.bloodGroup;
                 _medicalController.text = snapshot.data!.medicalDetails;
-                _phoneController.text = snapshot.data!.phone;
+                _phoneController.text = phone;
 
                 return ProfileForm(
                     nameController: _nameController,
@@ -163,19 +174,24 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
                     phoneController: _phoneController);
               } else if (snapshot.hasError) {
                 debugPrint("inside snapshot.hasError");
-                debugPrint('error: ${snapshot.error}');
+                debugPrint('error: ${snapshot.error.toString()}');
                 if ('${snapshot.error}' ==
                     "Failed host lookup: 'alertme.onrender.com'") {
                   return const Center(
                     child: Text("no net connection"),
                   );
-                } else {
+                } else if (snapshot.error.toString() ==
+                    "Exception: profile not found") {
                   return ProfileForm(
                     nameController: _nameController,
                     dateController: _dateController,
                     bloodGroupController: _bloodGroupController,
                     medicalController: _medicalController,
                     phoneController: _phoneController,
+                  );
+                } else {
+                  return Center(
+                    child: Text(snapshot.error.toString()),
                   );
                 }
               }
