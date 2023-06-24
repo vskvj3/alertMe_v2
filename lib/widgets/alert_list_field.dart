@@ -23,12 +23,6 @@ class AlertListField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () async {
-        final response = await AlertFunctions.updateView(
-            alertDetails.id, alertDetails.phone);
-        if (response.statusCode == 200) {
-          debugPrint("view updated");
-        }
-
         if (context.mounted) {
           Navigator.push(
             context,

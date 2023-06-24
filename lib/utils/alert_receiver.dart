@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'alert_functions.dart';
+
 class AlertData {
   String id;
   String name;
@@ -76,6 +78,12 @@ class AlertReceiver {
           responseData['medical_detail'],
           responseData['view_count'],
           responseData['flag_count']);
+
+      final viewUpdateResponse =
+          await AlertFunctions.updateView(id, responseData['phone']);
+      if (viewUpdateResponse.statusCode == 200) {
+        debugPrint("view updated");
+      }
       return profileData;
     } else {
       throw Exception("Couldn't fetch profile data");

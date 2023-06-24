@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:alert_me/pages/register_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:alert_me/widgets/text_field.dart';
@@ -116,6 +117,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _bloodGroupController = TextEditingController();
   final TextEditingController _medicalController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final savedProfile = const SnackBar(
     content: Text('Profile saved success'),
   );
@@ -151,12 +153,14 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
                 _dateController.text = snapshot.data!.dateOfBirth;
                 _bloodGroupController.text = snapshot.data!.bloodGroup;
                 _medicalController.text = snapshot.data!.medicalDetails;
+                _phoneController.text = snapshot.data!.phone;
 
                 return ProfileForm(
                     nameController: _nameController,
                     dateController: _dateController,
                     bloodGroupController: _bloodGroupController,
-                    medicalController: _medicalController);
+                    medicalController: _medicalController,
+                    phoneController: _phoneController);
               } else if (snapshot.hasError) {
                 debugPrint("inside snapshot.hasError");
                 debugPrint('error: ${snapshot.error}');
@@ -167,10 +171,12 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
                   );
                 } else {
                   return ProfileForm(
-                      nameController: _nameController,
-                      dateController: _dateController,
-                      bloodGroupController: _bloodGroupController,
-                      medicalController: _medicalController);
+                    nameController: _nameController,
+                    dateController: _dateController,
+                    bloodGroupController: _bloodGroupController,
+                    medicalController: _medicalController,
+                    phoneController: _phoneController,
+                  );
                 }
               }
 
@@ -183,25 +189,27 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
 }
 
 class ProfileForm extends StatelessWidget {
-
-  const ProfileForm({
-    super.key,
-    required TextEditingController nameController,
-    required TextEditingController dateController,
-    required TextEditingController bloodGroupController,
-    required TextEditingController medicalController,
-  })  : _nameController = nameController,
+  ProfileForm(
+      {super.key,
+      required TextEditingController nameController,
+      required TextEditingController dateController,
+      required TextEditingController bloodGroupController,
+      required TextEditingController medicalController,
+      required TextEditingController phoneController})
+      : _nameController = nameController,
         _dateController = dateController,
         _bloodGroupController = bloodGroupController,
-        _medicalController = medicalController;
+        _medicalController = medicalController,
+        _phoneController = phoneController;
 
   final TextEditingController _nameController;
   final TextEditingController _dateController;
   final TextEditingController _bloodGroupController;
   final TextEditingController _medicalController;
+  final TextEditingController _phoneController;
 
   final nameStorage = const FlutterSecureStorage();
- final String nameKey = "Pname";
+  final String nameKey = "Pname";
 
   @override
   Widget build(BuildContext context) {
@@ -215,6 +223,8 @@ class ProfileForm extends StatelessWidget {
             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 30.0),
+          PhoneNumberField(phoneNumberController: _phoneController),
+          const SizedBox(height: 20.0),
           CustomTextField(labelText: "Name", controller: _nameController),
           const SizedBox(height: 20.0),
           CustomTextField(
@@ -244,7 +254,8 @@ class ProfileForm extends StatelessWidget {
                 CustomButton(
                   text: 'Save Profile',
                   onPressed: () async {
-                    await nameStorage.write(key: nameKey, value: _nameController.text);
+                    await nameStorage.write(
+                        key: nameKey, value: _nameController.text);
 
                     String saveStatus = await setProfile(
                       _nameController.text,
@@ -272,6 +283,39 @@ class ProfileForm extends StatelessWidget {
           ),
         ]),
       ),
+    );
+  }
+}
+
+class PhoneNumberField extends StatelessWidget {
+  const PhoneNumberField({
+    super.key,
+    required TextEditingController phoneNumberController,
+  }) : _phoneNumberController = phoneNumberController;
+
+  final TextEditingController _phoneNumberController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      enabled: false,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Colors.amber, width: 0, style: BorderStyle.none),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        contentPadding: EdgeInsets.only(left: 20),
+        filled: true,
+        fillColor: Color(0xFFF9D1D1),
+        labelText: "Phone",
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        labelStyle: TextStyle(
+          fontSize: 13.0,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      controller: _phoneNumberController,
     );
   }
 }
