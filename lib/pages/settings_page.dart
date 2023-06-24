@@ -1,5 +1,7 @@
 import 'dart:convert';
-
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:alert_me/homepage.dart';
 import 'package:alert_me/utils/alert_sms.dart';
 import 'package:alert_me/utils/emergency_notif.dart';
@@ -19,6 +21,9 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final List<bool> _checkboxValues = [false, false, false, false];
+  late String phone;
+
+  final storage = const FlutterSecureStorage();
 
   // final List<bool> _checkboxValues = [false, false, false, false, false];
   @override
@@ -38,6 +43,9 @@ class _SettingsPageState extends State<SettingsPage> {
         _checkboxValues[3] = temp[3];
       });
     }
+
+    phone = (await storage.read(key: "phone"))!;
+    debugPrint("Phone inside settings: $phone");
   }
 
   @override
@@ -171,16 +179,57 @@ class _SettingsPageState extends State<SettingsPage> {
 
               const SizedBox(height: 20),
               ExpansionTile(
-                title: const Text("Log Out"),
+                title: const Text("Advanced"),
                 children: [
-                  ElevatedButton(
-                      onPressed: () async {
-                        await logOut(context);
-                      },
-                      child: const Text("Log Out"))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () async {
+                            await logOut(context);
+                          },
+                          child: const Text("Log Out")),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: () async {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Delete Account"),
+                                content: const Text(
+                                    'This operation is irreversible. All your data and settings will be deleted.'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('DELETE'),
+                                    onPressed: () async {
+                                      http.delete(
+                                        Uri.parse(
+                                            'https://alertme.onrender.com/api/v1/delete/$phone'),
+                                      );
+                                      await logOut(context);
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red, // Set the button color
+                        ),
+                        child: const Text(
+                          "Delete Account",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
                 ],
               ),
-
+              const SizedBox(
+                height: 10,
+              ),
               CustomButton(
                   text: 'Done',
                   onPressed: () {
