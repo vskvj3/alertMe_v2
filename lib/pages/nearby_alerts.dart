@@ -17,9 +17,8 @@ class AlertsNear extends StatefulWidget {
 }
 
 class _AlertsNearState extends State<AlertsNear> {
-  List<AlertData> alertDataList = [];
-  List<AlertData> sortedAlertDataList = [];
-  final categories = AlertReceiver.fetchAllAlert();
+  late Position currentLocation;
+  
 
   @override
   void initState() {
@@ -55,11 +54,12 @@ class _AlertsNearState extends State<AlertsNear> {
         );
       }
     }
-
-    alertDataList = await AlertReceiver.fetchAllAlert();
-    sortedAlertDataList = await sortAlertDataList(alertDataList);
+    currentLocation = await LocationModule.determinePosition();
+    debugPrint('${currentLocation.latitude}');
+    debugPrint('${currentLocation.longitude}');
+    
     setState(() {
-      sortedAlertDataList;
+      currentLocation;
     });
 
     if (isLocationEnabled) {
@@ -72,32 +72,37 @@ class _AlertsNearState extends State<AlertsNear> {
   Future<List<AlertData>> sortAlertDataList(
       List<AlertData> AlertDataList) async {
     final Position currentLocation = await LocationModule.determinePosition();
-    for (int i = 0; i < alertDataList.length - 1; i++) {
-      for (int j = 0; j < alertDataList.length - i - 1; j++) {
-        if (await findActualDistance(alertDataList[j].location,
+    for (int i = 0; i < AlertDataList.length - 1; i++) {
+      for (int j = 0; j < AlertDataList.length - i - 1; j++) {
+        if (await findActualDistance(AlertDataList[j].location,
                 currentLocation.latitude, currentLocation.longitude) >
-            await findActualDistance(alertDataList[j + 1].location,
+            await findActualDistance(AlertDataList[j + 1].location,
                 currentLocation.latitude, currentLocation.longitude)) {
-          AlertData temp = alertDataList[j + 1];
-          alertDataList[j + 1] = alertDataList[j];
-          alertDataList[j] = temp;
+          AlertData temp = AlertDataList[j + 1];
+          AlertDataList[j + 1] = AlertDataList[j];
+          AlertDataList[j] = temp;
         }
       }
     }
-    return alertDataList;
+    return AlertDataList;
   }
 
-  Future<String> findDistance(String remoteLocation) async {
-    final Position currentLocation = await LocationModule.determinePosition();
-    debugPrint('${currentLocation.latitude}');
+  Future<List<AlertData>> fetchAndSortAlertDataList() async {
+   List<AlertData> alertDataList = await AlertReceiver.fetchAllAlert();
+  List<AlertData> sortedAlertDataList = await sortAlertDataList(alertDataList);
+    return sortedAlertDataList;
+  }
+
+  Future<String> findDistance(String remoteLocation,lat,lon) async {
+    
     final List<dynamic> locations = json.decode(remoteLocation);
     debugPrint("locations: ${locations[0].toDouble()}");
     debugPrint("locations: ${locations[1]}");
     String distance = LocationModule.calculateDistance(
         locations[0].toDouble(),
         locations[1].toDouble(),
-        currentLocation.latitude.toDouble(),
-        currentLocation.longitude.toDouble());
+        lat.toDouble(),
+        lon.toDouble());
     debugPrint('distance: $distance');
     return distance;
   }
@@ -117,22 +122,22 @@ class _AlertsNearState extends State<AlertsNear> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: categories,
+    return FutureBuilder<List<AlertData>>(
+      future:fetchAndSortAlertDataList(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            debugPrint("alertDatalist lengt: ${alertDataList.length}");
-            if (alertDataList.isEmpty) {
-              return const Center(child: Text("No Alerts Found"));
+            debugPrint("alertDatalist lengt: ${snapshot.data!.length}");
+            if (snapshot.data!.isEmpty) {
+              return const Center(child: Text('No Alerts Found'));
             } else {
               return SingleChildScrollView(
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: alertDataList.length,
+                  itemCount:  snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return buildItem(index);
+                    return buildItem(snapshot.data![index]);
                   },
                 ),
               );
@@ -161,20 +166,20 @@ class _AlertsNearState extends State<AlertsNear> {
     );
   }
 
-  FutureBuilder<String> buildItem(int index) {
+  FutureBuilder<String> buildItem(AlertData alertData) {
     String currentTimeString = DateFormat('hh:mm:ss').format(DateTime.now());
     return FutureBuilder(
-      future: findDistance(alertDataList[index].location),
+      future: findDistance(alertData.location,currentLocation.latitude,currentLocation.longitude),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           final distance = snapshot.data as String;
-          if (alertDataList[index].status == "aborted") {
+          if (alertData.status == "aborted") {
             return Stack(children: [
               AlertListField(
                 distance: "-----",
                 nearFar: "-----",
                 name: "-----",
-                alertDetails: alertDataList[index],
+                alertDetails: alertData,
               ),
               const Align(
                   alignment: Alignment.center,
@@ -200,9 +205,9 @@ class _AlertsNearState extends State<AlertsNear> {
             distance: distance,
             // nearFar: "flagged: ${alertDataList[index].flagCount}",
             nearFar:
-                timeDifference(currentTimeString, alertDataList[index].time),
-            name: alertDataList[index].name,
-            alertDetails: alertDataList[index],
+                timeDifference(currentTimeString, alertData.time),
+            name: alertData.name,
+            alertDetails: alertData,
           );
         } else {
           return const Column(
