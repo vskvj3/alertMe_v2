@@ -1,5 +1,7 @@
 import 'package:alert_me/homepage.dart';
 import 'package:alert_me/pages/emergency_profile_page.dart';
+import 'package:alert_me/pages/settings_page.dart';
+import 'package:alert_me/widgets/save_or_add_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:alert_me/utils/register_user.dart';
@@ -90,12 +92,26 @@ class _LoginRegisterState extends State<LoginRegister> {
                               value.user!.phoneNumber, value.user!.uid);
                           debugPrint("response: $response");
 
-                          if(context.mounted){Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EmergencyProfilePage()),
-                              (route) => false);
+                          if (context.mounted) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EmergencyProfilePage(
+                                          button: CustomButton(
+                                              text: 'Next',
+                                              onPressed: () {
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const SettingsPage(
+                                                              button:
+                                                                  SizedBox(),
+                                                            )),
+                                                    (route) => false);
+                                              }),
+                                        )),
+                                (route) => false);
                           }
                         }
                       }).catchError((error) {

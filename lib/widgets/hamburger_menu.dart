@@ -1,8 +1,11 @@
+import 'package:alert_me/homepage.dart';
 import 'package:alert_me/pages/about_page.dart';
 import 'package:alert_me/pages/faq_page.dart';
 import 'package:alert_me/pages/emergency_contacts_page.dart';
 import 'package:alert_me/pages/settings_page.dart';
 import 'package:alert_me/pages/emergency_profile_page.dart';
+import 'package:alert_me/utils/log_out.dart';
+import 'package:alert_me/widgets/save_or_add_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -29,7 +32,13 @@ class HamburgerMenu extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const SettingsPage(),
+              builder: (context) => SettingsPage(
+                button: ElevatedButton(
+                    onPressed: () async {
+                      await logOut(context);
+                    },
+                    child: const Text("Log Out")),
+              ),
             ),
           );
           debugPrint('Settings Page');
@@ -37,7 +46,17 @@ class HamburgerMenu extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const EmergencyProfilePage(),
+              builder: (context) => EmergencyProfilePage(
+                button: CustomButton(
+                    text: 'Done',
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                          (route) => false);
+                    }),
+              ),
             ),
           );
           debugPrint('Emergency Profile Page');

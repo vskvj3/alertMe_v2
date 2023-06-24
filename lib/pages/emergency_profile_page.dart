@@ -104,7 +104,8 @@ class Profile {
 }
 
 class EmergencyProfilePage extends StatefulWidget {
-  const EmergencyProfilePage({super.key});
+  final Widget button;
+  const EmergencyProfilePage({super.key, required this.button});
 
   @override
   State<EmergencyProfilePage> createState() => _EmergencyProfilePageState();
@@ -167,6 +168,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
                 _phoneController.text = phone;
 
                 return ProfileForm(
+                    button: widget.button,
                     nameController: _nameController,
                     dateController: _dateController,
                     bloodGroupController: _bloodGroupController,
@@ -183,6 +185,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
                 } else if (snapshot.error.toString() ==
                     "Exception: profile not found") {
                   return ProfileForm(
+                    button: widget.button,
                     nameController: _nameController,
                     dateController: _dateController,
                     bloodGroupController: _bloodGroupController,
@@ -207,6 +210,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
 class ProfileForm extends StatelessWidget {
   ProfileForm(
       {super.key,
+      required this.button,
       required TextEditingController nameController,
       required TextEditingController dateController,
       required TextEditingController bloodGroupController,
@@ -223,6 +227,7 @@ class ProfileForm extends StatelessWidget {
   final TextEditingController _bloodGroupController;
   final TextEditingController _medicalController;
   final TextEditingController _phoneController;
+  final Widget button;
 
   final nameStorage = const FlutterSecureStorage();
   final String nameKey = "Pname";
@@ -285,15 +290,7 @@ class ProfileForm extends StatelessWidget {
                 const SizedBox(
                   width: 30,
                 ),
-                CustomButton(
-                    text: 'Done',
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()),
-                          (route) => false);
-                    })
+                button
               ],
             )),
           ),

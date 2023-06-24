@@ -1,14 +1,17 @@
 import 'dart:convert';
 
+import 'package:alert_me/homepage.dart';
 import 'package:alert_me/utils/alert_sms.dart';
 import 'package:alert_me/utils/emergency_notif.dart';
 import 'package:alert_me/utils/location_finder.dart';
 import 'package:alert_me/utils/log_out.dart';
 import 'package:alert_me/utils/settings_storage.dart';
+import 'package:alert_me/widgets/save_or_add_button.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  final Widget button;
+  const SettingsPage({super.key, required this.button});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -167,12 +170,26 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
 
               const SizedBox(height: 20),
+              ExpansionTile(
+                title: const Text("Log Out"),
+                children: [
+                  ElevatedButton(
+                      onPressed: () async {
+                        await logOut(context);
+                      },
+                      child: const Text("Log Out"))
+                ],
+              ),
 
-              ElevatedButton(
-                  onPressed: () async {
-                    await logOut(context);
-                  },
-                  child: const Text("Log Out"))
+              CustomButton(
+                  text: 'Done',
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()),
+                        (route) => false);
+                  }),
             ],
           ),
         ),
