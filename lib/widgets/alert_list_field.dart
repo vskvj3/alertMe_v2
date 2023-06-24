@@ -1,9 +1,6 @@
 //widget for the recieved alert fields in the 'Alerts recievced' section
 
-import 'dart:convert';
-
 import 'package:alert_me/pages/alert_details.dart';
-import 'package:alert_me/utils/alert_functions.dart';
 import 'package:alert_me/utils/alert_receiver.dart';
 import 'package:flutter/material.dart';
 

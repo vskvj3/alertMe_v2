@@ -1,4 +1,3 @@
-import 'package:alert_me/utils/location_finder.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:alert_me/pages/alert_page.dart';
@@ -53,7 +52,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     init();
   }

@@ -15,7 +15,7 @@ class AppNotif {
 
   notificationDetails() {
     return const NotificationDetails(
-      android: AndroidNotificationDetails('1', '2',
+      android: AndroidNotificationDetails('1', 'Notification Button',
           playSound: false,
           enableVibration: false,
           showWhen: false,

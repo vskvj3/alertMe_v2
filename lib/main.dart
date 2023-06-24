@@ -1,6 +1,5 @@
 //import 'package:AlertMe/pages/Login_RegisterPage.dart';
 import 'package:alert_me/utils/find_distance.dart';
-import 'package:alert_me/utils/location_finder.dart';
 import 'package:alert_me/widgets/alert_notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

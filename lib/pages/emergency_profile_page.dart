@@ -6,8 +6,6 @@ import 'package:alert_me/widgets/save_or_add_button.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 
-import '../homepage.dart';
-
 showSnakeBar(status, context) {
   var statusSnackBar = SnackBar(
     duration: const Duration(seconds: 1),
@@ -118,7 +116,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
   final TextEditingController _bloodGroupController = TextEditingController();
   final TextEditingController _medicalController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   late String phone;
   final savedProfile = const SnackBar(
     content: Text('Profile saved success'),
@@ -208,7 +206,7 @@ class _EmergencyProfilePageState extends State<EmergencyProfilePage> {
 }
 
 class ProfileForm extends StatelessWidget {
-  ProfileForm(
+  const ProfileForm(
       {super.key,
       required this.button,
       required TextEditingController nameController,

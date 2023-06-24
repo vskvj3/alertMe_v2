@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:alert_me/homepage.dart';
@@ -77,9 +76,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     setState(() {
                       _checkboxValues[0] = value!;
                     });
+
                     await SettingStorage.storeSettings(
                         jsonEncode(_checkboxValues));
                     if (value!) {
+                      debugPrint("Showing permanent notification");
                       AppNotif().showNotification(
                           title: "Send Alert", body: "Press to send alert");
                     } else {

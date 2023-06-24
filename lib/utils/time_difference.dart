@@ -1,7 +1,7 @@
 String timeDifference(currentTimeString, alertTimeString) {
   // String currentTimeString = DateFormat('hh:mm:ss').format(DateTime.now());
   DateTime currentTime = DateTime.parse('2000-01-01 $currentTimeString');
-  DateTime alertTime = DateTime.parse('2000-01-01 ${alertTimeString}');
+  DateTime alertTime = DateTime.parse('2000-01-01 $alertTimeString');
 
   Duration difference = currentTime.difference(alertTime);
 
