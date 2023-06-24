@@ -1,4 +1,6 @@
 //import 'package:AlertMe/pages/Login_RegisterPage.dart';
+import 'package:alert_me/utils/find_distance.dart';
+import 'package:alert_me/utils/location_finder.dart';
 import 'package:alert_me/widgets/alert_notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint("Handling a background message: ${message.messageId}");
   debugPrint('Background Message data: ${message.data}');
   debugPrint('Message data id: ${message.data['id']}');
+  String dist = await findDistance(message.data['location']);
   AlertNotif(message.data['name'])
-      .showNotification(title: "alert Recieved", body: message.data['name']);
+      .showNotification(title: message.data['name'], body: dist);
   if (message.notification != null) {
     debugPrint(
         'Message also contained a notification: ${message.notification}');
@@ -28,16 +31,14 @@ void main() async {
   );
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     debugPrint('Got a message whilst in the foreground!');
     debugPrint('Message data: ${message.data}');
     debugPrint(message.data['id']);
+    String? dist = await findDistance(message.data['location']);
     AlertNotif(message.data['name'])
-        .showNotification(title: "alert Recieved", body: message.data['name']);
-
+        .showNotification(title: message.data['name'], body: dist);
     if (message.notification != null) {
-      AlertNotif(message.data['id'])
-          .showNotification(title: "alert Recieved", body: "name");
       debugPrint(
           'Message also contained a notification: ${message.notification}');
     }
