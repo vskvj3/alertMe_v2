@@ -1,8 +1,10 @@
 import 'package:alert_me/utils/location_finder.dart';
+import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:alert_me/pages/alert_page.dart';
 import 'package:alert_me/widgets/hamburger_menu.dart';
 import 'package:alert_me/pages/nearby_alerts.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,11 +21,48 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  init() async {
+    bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!isLocationEnabled) {
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Location is Disabled"),
+              content:
+                  const Text('Please make sure you enable GPS and try again'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    const AndroidIntent intent = AndroidIntent(
+                        action: 'android.settings.LOCATION_SOURCE_SETTINGS');
+
+                    intent.launch();
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
   static const List<Widget> _pages = <Widget>[AlertPage(), AlertsNear()];
 
   @override
   Widget build(BuildContext context) {
-    LocationModule().grandPermission();
+    // LocationModule().grandPermission();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
