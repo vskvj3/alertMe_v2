@@ -12,7 +12,7 @@ class AlertSendModule {
         jsonDecode(await SettingStorage.retrieveSettings() ?? "[]");
     if (temp.isNotEmpty) {
       if (temp[1] == true) {
-        var success = ServerAlerts.sentAlert();
+        success = ServerAlerts.sentAlert();
       }
       if (temp[2] == true) {
         SMSSender.sendSMS();

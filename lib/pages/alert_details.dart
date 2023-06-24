@@ -335,7 +335,7 @@ class _AlertDetailsState extends State<AlertDetails> {
       );
     }
     {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 }
