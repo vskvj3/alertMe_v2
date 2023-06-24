@@ -170,14 +170,14 @@ class _AlertPageState extends State<AlertPage> {
     return Column(
       children: [
         Wrap(
-          spacing: 5,
+          spacing: 20,
           children: [
             ChoiceChip(
               label: const Image(
                 image: AssetImage('assets/icons/flame.png'),
                 semanticLabel: "",
-                height: 50,
-                width: 50,
+                height: 60,
+                width: 60,
               ),
               selected: _value == "flame",
               onSelected: (selected) {
@@ -192,8 +192,8 @@ class _AlertPageState extends State<AlertPage> {
               label: const Image(
                 image: AssetImage('assets/icons/accident.png'),
                 semanticLabel: "",
-                height: 50,
-                width: 50,
+                height: 60,
+                width: 60,
               ),
               selected: _value == "accident",
               onSelected: (selected) {
@@ -208,8 +208,8 @@ class _AlertPageState extends State<AlertPage> {
               label: const Image(
                 image: AssetImage('assets/icons/heart-attack2.png'),
                 semanticLabel: "",
-                height: 50,
-                width: 50,
+                height: 60,
+                width: 60,
               ),
               selected: _value == "heartattack",
               onSelected: (selected) {
