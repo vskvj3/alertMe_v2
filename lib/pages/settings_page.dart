@@ -111,8 +111,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   activeColor: Colors.pink,
                   checkColor: Colors.white,
                   onChanged: (value) async {
-                    LocationModule().grandPermission();
+                    await LocationModule().grandPermission();
                     setState(
+                      
                       () {
                         _checkboxValues[1] = value!;
                       },
@@ -135,7 +136,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   value: _checkboxValues[2],
                   onChanged: (value) async {
-                    SMSSender().grandPermission();
+                    await SMSSender().grandPermission();
                     setState(
                       () {
                         _checkboxValues[2] = value!;
