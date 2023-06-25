@@ -179,54 +179,59 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
 
               const SizedBox(height: 20),
-              ExpansionTile(
-                title: const Text("Advanced"),
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                          onPressed: () async {
-                            await logOut(context);
-                          },
-                          child: const Text("Log Out")),
-                      const SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () async {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text("Delete Account"),
-                                content: const Text(
-                                    'This operation is irreversible. All your data and settings will be deleted.'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('DELETE'),
-                                    onPressed: () async {
-                                      http.delete(
-                                        Uri.parse(
-                                            'https://alertme.onrender.com/api/v1/delete/$phone'),
-                                      );
-                                      await logOut(context);
-                                    },
-                                  ),
-                                ],
-                              );
+              Card(
+                color: const Color(0xFFF9D1D1),
+                child: ExpansionTile(
+                  tilePadding: const EdgeInsets.only(left:20,right:20),
+                  childrenPadding: const EdgeInsets.only(bottom: 20),
+                  title: const Text("Advanced"),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              await logOut(context);
                             },
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red, // Set the button color
-                        ),
-                        child: const Text(
-                          "Delete Account",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                            child: const Text("Log Out")),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: () async {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Delete Account"),
+                                  content: const Text(
+                                      'This operation is irreversible. All your data and settings will be deleted.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('DELETE'),
+                                      onPressed: () async {
+                                        http.delete(
+                                          Uri.parse(
+                                              'https://alertme.onrender.com/api/v1/delete/$phone'),
+                                        );
+                                        await logOut(context);
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red, // Set the button color
+                          ),
+                          child: const Text(
+                            "Delete Account",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 10,

@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'AlertMe',
         theme: ThemeData(
+          dividerColor: Colors.transparent,
           brightness: Brightness.light,
           useMaterial3: true,
           primarySwatch: Colors.blue,

@@ -5,12 +5,14 @@ class CustomTextField extends StatelessWidget {
   final String labelText;
   final bool obscureText;
   final TextEditingController controller;
+  final String? prefixtext;
 
   const CustomTextField({
     Key? key,
     required this.labelText,
     this.obscureText = false,
     required this.controller,
+    this.prefixtext,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,8 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(
+              prefix: Text(prefixtext??"",style: const TextStyle(
+                fontWeight: FontWeight.w400),),
               labelText: labelText,
               // floatingLabelBehavior: FloatingLabelBehavior.auto,
               contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
