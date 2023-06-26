@@ -1,8 +1,10 @@
 //import 'package:AlertMe/pages/Login_RegisterPage.dart';
 import 'dart:ui';
 
+import 'package:alert_me/utils/emergency_notif.dart';
 import 'package:alert_me/utils/find_distance.dart';
 import 'package:alert_me/widgets/alert_notification.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:alert_me/loadingpage.dart';
@@ -44,12 +46,48 @@ void main() async {
           'Message also contained a notification: ${message.notification}');
     }
   });
+
+ AwesomeNotifications().initialize(
+  // set the icon to null if you want to use the default app icon
+  null,
+  [
+    NotificationChannel(
+        channelGroupKey: 'basic_channel_group',
+        channelKey: 'basic_channel',
+        channelName: 'Basic notifications',
+        channelDescription: 'Notification channel for basic tests',
+        defaultColor: const Color(0xFF9D50DD),
+        ledColor: Colors.white)
+  ],
+  // Channel groups are only visual and are not required
+  channelGroups: [
+    NotificationChannelGroup(
+        channelGroupName: 'basic_channel_group',
+        channelGroupKey: 'group_key')
+  ],
+  debug: true
+);
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  void initState(){
+     AwesomeNotifications().setListeners(
+        onActionReceivedMethod:NotificationController.onActionReceivedMethod,
+    );
+
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
