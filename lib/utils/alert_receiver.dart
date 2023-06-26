@@ -79,8 +79,7 @@ class AlertReceiver {
           responseData['view_count'],
           responseData['flag_count']);
 
-      final viewUpdateResponse =
-          await AlertFunctions.updateView(id, responseData['phone']);
+      final viewUpdateResponse = await AlertFunctions.updateView(id);
       if (viewUpdateResponse.statusCode == 200) {
         debugPrint("view updated");
       }

@@ -245,7 +245,7 @@ class _AlertDetailsState extends State<AlertDetails> {
                   ElevatedButton(
                     onPressed: () async {
                       final response = await AlertFunctions.updateCount(
-                          widget.alertDetails.id, widget.alertDetails.phone);
+                          widget.alertDetails.id);
                       if (response.statusCode == 200) {
                         final responseData = json.decode(response.body);
                         profileData.flagCount = responseData['flag_count'];
