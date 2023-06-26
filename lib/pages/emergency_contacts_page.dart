@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:alert_me/utils/emergency_notif.dart';
 import 'package:alert_me/utils/validate_data.dart';
 import 'package:alert_me/widgets/text_field.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,10 @@ class _EmergencyContactsPageState extends State<EmergencyContactsPage> {
                                 _phoneNumberController.text.isNotEmpty &&
                                 emergencyContactList.length < 5 &&
                                 PhoneValidator.validatePhoneNumber(
-                                    _phoneNumberController.text) && !(PhoneValidator.checkDuplicate(emergencyContactList,_phoneNumberController.text))) {
+                                    _phoneNumberController.text) &&
+                                !(PhoneValidator.checkDuplicate(
+                                    emergencyContactList,
+                                    _phoneNumberController.text))) {
                               final tempList = [
                                 _nameController.text,
                                 _phoneNumberController.text
@@ -108,8 +112,8 @@ class _EmergencyContactsPageState extends State<EmergencyContactsPage> {
                                   }
                                 }
                                 setState(() {
-                                  _phoneNumberController.text ="";
-                                  _nameController.text="";
+                                  _phoneNumberController.text = "";
+                                  _nameController.text = "";
                                   emergencyContactList;
                                 });
                               }
@@ -149,11 +153,11 @@ class _EmergencyContactsPageState extends State<EmergencyContactsPage> {
                         trailing: TextButton(
                             onPressed: () async {
                               setState(() {
-                              emergencyContactList.removeAt(index);
-                            });
-                            await EmergencyDataStorage.storeContacts(
-                              json.encode(emergencyContactList),
-                            );
+                                emergencyContactList.removeAt(index);
+                              });
+                              await EmergencyDataStorage.storeContacts(
+                                json.encode(emergencyContactList),
+                              );
                             },
                             child: const Text("Remove")),
                         contentPadding: const EdgeInsets.only(left: 10),
@@ -170,6 +174,12 @@ class _EmergencyContactsPageState extends State<EmergencyContactsPage> {
                   ),
                 ),
               ],
+              // ElevatedButton(
+              //     onPressed: () {
+              //       AppNotif().showNotification(
+              //           title: "Send Alert", body: "Press to send alert");
+              //     },
+              //     child: Text("test"))
             ],
           ),
         ),

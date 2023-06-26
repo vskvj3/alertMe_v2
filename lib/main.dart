@@ -1,4 +1,6 @@
 //import 'package:AlertMe/pages/Login_RegisterPage.dart';
+import 'dart:ui';
+
 import 'package:alert_me/utils/find_distance.dart';
 import 'package:alert_me/widgets/alert_notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -42,7 +44,6 @@ void main() async {
           'Message also contained a notification: ${message.notification}');
     }
   });
-
   runApp(const MyApp());
 }
 

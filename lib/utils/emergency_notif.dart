@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class AppNotif {
@@ -10,7 +11,12 @@ class AppNotif {
         InitializationSettings(android: initializationSettingsAndroid);
     await appNotif.initialize(initializationSettings,
         onDidReceiveBackgroundNotificationResponse:
-            (NotificationResponse notificationResponse) async {});
+            (NotificationResponse notificationResponse) async {
+      debugPrint("pressed  background notification");
+    }, onDidReceiveNotificationResponse:
+            (NotificationResponse norificationResponse) async {
+      debugPrint("pressed notification");
+    });
   }
 
   notificationDetails() {
@@ -18,7 +24,6 @@ class AppNotif {
       android: AndroidNotificationDetails('1', 'Notification Button',
           playSound: false,
           enableVibration: false,
-          showWhen: false,
           importance: Importance.max,
           icon: 'mipmap/ic_launcher',
           ongoing: true,
@@ -29,6 +34,7 @@ class AppNotif {
 
   Future showNotification(
       {int id = 111, String? title, String? body, String? payload}) async {
+    debugPrint("indise show notification");
     return appNotif.show(id, title, body, await notificationDetails());
   }
 }
