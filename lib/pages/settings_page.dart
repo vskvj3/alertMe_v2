@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:alert_me/homepage.dart';
@@ -79,12 +80,15 @@ class _SettingsPageState extends State<SettingsPage> {
 
                     await SettingStorage.storeSettings(
                         jsonEncode(_checkboxValues));
-                    if (value!) {
+                     if (value!) {
                       debugPrint("Showing permanent notification");
-                      AppNotif().showNotification(
-                          title: "Send Alert", body: "Press to send alert");
+                      //AppNotif().showNotification(
+                          //title: "Send Alert", body: "Press to send alert");
+                          AppNotif().createNotif();
+
                     } else {
-                      AppNotif().appNotif.cancel(111);
+                     await  AwesomeNotifications().cancel(10);
+                      //AppNotif().appNotif.cancel(111);
                     }
                   },
                 ),
