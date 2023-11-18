@@ -20,6 +20,13 @@ client application of Emergency Alert System developed as a part of KTU Mini Pro
   <img height="350" hspace="5"/>
   <img alt="Dark" src="screenshots/settings page.jpg" width="30%">
 </p>
+<p align="center">
+  <img alt="Light" src="screenshots/profile page.jpg" width="30%">
+  <img height="350" hspace="5"/>
+  <img alt="Dark" src="screenshots/alert notification.jpg" width="30%">
+  <img height="350" hspace="5"/>
+  <img alt="Dark" src="screenshots/lockscreen button.jpg" width="30%">
+</p>
 
 ## Features
 - Easy to access alert button
