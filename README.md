@@ -8,11 +8,11 @@ client application of Emergency Alert System developed as a part of KTU Mini Pro
 ## TODO before release 1
 - [X] name is sms
 - [X] alert type icons using choice chips
-- [ ] loading animations in nearby alerts
-- [ ] flag as false only once
-- [ ] Delete Profile
-- [ ] Log out button
+- [X] loading animations in nearby alerts
+- [X] flag as false only once
+- [X] Delete Profile
+- [X] Log out button
 - [X] abort alert
-- [ ] delete alerts after 3 hours
-- [ ] sort nearby alerts based on distance/time
-- [ ] show error if loading is not completed 
+- [X] delete alerts after 3 hours
+- [X] sort nearby alerts based on distance/time
+- [X] show error if loading is not completed 
