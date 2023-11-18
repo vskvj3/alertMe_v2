@@ -2,17 +2,21 @@
 
 client application of Emergency Alert System developed as a part of KTU Mini Project (CSD 334).
 
+## Problem Statement
+```
+To develop an emergency alert system to send emergency alerts to nearby users, authorities and emergency contacts, along with real-time location and relevant medical information with an easy to access alert button.
+```
+## Features
+- Easy to access alert button
+- Location based notifications
+- SMS alert to emergency contacts
+- User profile with medical details (eg: blood group)
+- Google map for location tracking
+- Realtime push notifications for alerts
+- False alarm reporting
+- Alert tag to provide more details
 ## Tools used
 - flutter sdk: v3.10.1
-
-## TODO before release 1
-- [X] name is sms
-- [X] alert type icons using choice chips
-- [X] loading animations in nearby alerts
-- [X] flag as false only once
-- [X] Delete Profile
-- [X] Log out button
-- [X] abort alert
-- [X] delete alerts after 3 hours
-- [X] sort nearby alerts based on distance/time
-- [X] show error if loading is not completed 
+- Node js
+- MongoDB
+- Firebase
