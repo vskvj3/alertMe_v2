@@ -7,7 +7,10 @@ client application of Emergency Alert System developed as a part of KTU Mini Pro
 
 ## Screenshots
 <p align="center">
+<figure>
   <img alt="Light" src="screenshots/homescreen.jpg" width="30%">
+  <figcaption>home screen</figcaption>
+</figure>
 <img height="350" hspace="5"/>
   <img alt="Dark" src="screenshots/alert countdown.jpg" width="30%">
 <img height="350" hspace="5"/>
