@@ -5,7 +5,11 @@ client application of Emergency Alert System developed as a part of KTU Mini Pro
 ## Problem Statement
 > To develop an emergency alert system to send emergency alerts to nearby users, authorities and emergency contacts, along with real-time location and relevant medical information with an easy to access alert button.
 
-![home screen](screenshots/homescreen.jpg "home screen" =50%x) ![alert countdown](screenshots/alert%20countdown.jpg "alert countdown" =50%x)
+<p align="center">
+  <img alt="Light" src="screenshots/homescreen.jpg" width="45%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="screenshots/alert countdown.jpg" width="45%">
+</p>
 
 ## Features
 - Easy to access alert button
